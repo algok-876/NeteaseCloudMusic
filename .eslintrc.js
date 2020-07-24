@@ -20,6 +20,7 @@ module.exports = {
     'key-spacing': [2, { beforeColon: false, afterColon: true }],
     'consistent-return': 0,
     'no-shadow': 2,
-    'no-dupe-keys': 2// 在创建对象字面量时不允许键重复 {a:1,a:1}
+    'no-dupe-keys': 2, // 在创建对象字面量时不允许键重复 {a:1,a:1}
+    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }]
   }
 };

@@ -1,25 +1,25 @@
 
-# neteasecloudmusic
+# 云音乐
 
-## Project setup
-```
-npm install
-```
+## 本地预览
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+``````
+npm install     #下载依赖
+npm run serve   #开启本地服务器
+``````
 
-### Compiles and minifies for production
+## 构建
+
 ```
 npm run build
 ```
 
-### Lints and fixes files
+## Eslint
+
 ```
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 完成的功能
+
+- **登录**
