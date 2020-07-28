@@ -9,7 +9,7 @@ const neteaseApi = axios.create({
 neteaseApi.interceptors.response.use(function (response) {
   return response.data;
 }, function (error) {
-  return Promise.reject(error);
+  return error.response.data;
 });
 
 export default neteaseApi;

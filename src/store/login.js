@@ -13,6 +13,8 @@ export default {
       state.loginInfo.userData = payload;
       if (payload.code === 200) {
         state.loginInfo.status = true;
+      } else {
+        state.loginInfo.status = false;
       }
     }
   },
