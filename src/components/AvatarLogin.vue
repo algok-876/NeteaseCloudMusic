@@ -106,14 +106,14 @@
         <a class="back" v-if="curFormType==='callReg'" @click.prevent="backLog">
           <Icon type="ios-arrow-back" />返回登录</a>
         <div class="img">
-          <img src="../../../assets/img/phone.jpg" alt style="width:100%" />
+          <img src="../assets/img/phone.jpg" alt style="width:100%" />
         </div>
         <Form ref="publicForm" :model="publicForm" :rules="publicRules">
 
           <template v-if="regStep===''">
             <FormItem prop="username">
               <Input type="text" v-model="publicForm.username" placeholder="手机号">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                <Icon custom="iconfont icon-shouji" slot="prepend" style="color:#515a6e"></Icon>
               </Input>
             </FormItem>
             <FormItem prop="password">
@@ -127,7 +127,7 @@
             <FormItem prop="SMS">
               <div class="smsFormItem">
                 <Input type="text" v-model="publicForm.sms" placeholder="短信验证码">
-                  <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                  <Icon custom="iconfont icon-mess" slot="prepend"></Icon>
                 </Input>
                 <button class="time" @click.prevent="repSendSMS" :disabled="cooldown!==0">{{cooldown === 0 ? '重新发送' : cooldown + 's'}}</button>
               </div>

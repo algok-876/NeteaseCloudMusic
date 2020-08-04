@@ -4,7 +4,7 @@
       <!-- logo -->
       <div class="logo">
         <a href="">
-          <img src="../../assets/logo.png" alt="">
+          <img src="../assets/logo.png" alt="">
         </a>
       </div>
       <!-- 前进后退按钮组 -->
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import AvatarLogin from './Header/AvatarLogin';
+import AvatarLogin from './AvatarLogin';
 export default {
   data () {
     return {

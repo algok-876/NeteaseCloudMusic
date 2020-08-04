@@ -8,7 +8,76 @@ const routes = [
   {
     path: '/',
     name: 'Main',
-    component: Home
+    redirect: '/find',
+    component: Home,
+    children: [
+      {
+        path: 'find',
+        name: 'Find',
+        component: () => import('../views/Find.vue'),
+        redirect: '/find/recommendation',
+        children: [
+          {
+            path: 'recommendation',
+            name: 'Recommendation',
+            component: () => import('../views/find/Recommendation.vue')
+          },
+          {
+            path: 'playlist',
+            name: 'Playlist',
+            component: () => import('../views/find/Playlist.vue'),
+            redirect: '/find/playlist/hot',
+            children: [
+              {
+                path: 'hot',
+                name: 'Hot',
+                component: () => import('../views/find/Hot.vue')
+              }
+            ]
+          },
+          {
+            path: 'radiohost',
+            name: 'Radiohost',
+            component: () => import('../views/find/Radiohost.vue')
+          },
+          {
+            path: 'singer',
+            name: 'Singer',
+            component: () => import('../views/find/Singer.vue')
+          },
+          {
+            path: 'newmusic',
+            name: 'Newmusic',
+            component: () => import('../views/find/Newmusic.vue')
+          },
+          {
+            path: 'rankinglist',
+            name: 'Rankinglist',
+            component: () => import('../views/find/Rankinglist.vue')
+          }
+        ]
+      },
+      {
+        path: 'fm',
+        name: 'FM',
+        component: () => import('../views/FM.vue')
+      },
+      {
+        path: 'broadcast',
+        name: 'Broadcast',
+        component: () => import('../views/Broadcast.vue')
+      },
+      {
+        path: 'video',
+        name: 'Video',
+        component: () => import('../views/Video.vue')
+      },
+      {
+        path: 'friend',
+        name: 'Friend',
+        component: () => import('../views/Friend.vue')
+      }
+    ]
   }
   // {
   //   path: '/about',
@@ -18,7 +87,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 });

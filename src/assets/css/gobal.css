@@ -4,3 +4,27 @@
 .ivu-poptip-body{
   padding: 0!important;
 }
+.happy-scroll-container, .happy-scroll-content{
+  width: 100%!important;
+}
+.swiper-container{
+  --swiper-theme-color: #ff6600;/* 设置Swiper风格 */
+  --swiper-navigation-color: #00ff33;/* 单独设置按钮颜色 */
+  --swiper-navigation-size: 10px;/* 设置按钮大小 */
+}
+.content-wrapper{
+  max-width: 1150px;
+  margin: 0 auto;
+}
+.load{
+  transform-origin: center center;
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from { transform: rotate(0deg);}
+  50%  { transform: rotate(180deg);}
+  to   { transform: rotate(360deg);}
+}
+body{
+  color: #000000;
+}
