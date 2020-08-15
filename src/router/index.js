@@ -76,6 +76,11 @@ const routes = [
         path: 'friend',
         name: 'Friend',
         component: () => import('../views/Friend.vue')
+      },
+      {
+        path: 'pldetail',
+        name: 'Playlist',
+        component: () => import('../views/subPage/Pldetail.vue')
       }
     ]
   }

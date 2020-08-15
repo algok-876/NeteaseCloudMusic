@@ -1,11 +1,12 @@
 <template>
   <div>
-    <router-view></router-view>
+    精品歌单
   </div>
 </template>
 
 <script>
 export default {
+
 };
 </script>
 

@@ -15,11 +15,17 @@ import {
   Poptip,
   Notice,
   Spin,
-  Page
+  Page,
+  Checkbox,
+  Breadcrumb,
+  BreadcrumbItem,
+  Table
 } from 'view-design';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueLazyLoad from 'vue-lazyload';
 import vuescroll from 'vuescroll';
+import moment from 'moment';
+import lazyImg from './directive/imgLazy';
 import 'vuescroll/dist/vuescroll.css';
 
 import 'swiper/css/swiper.css';
@@ -36,6 +42,9 @@ remoteInterface.checkLoginStatus().then(async res => {
     store.commit('login/setLoginInfo', res);
     // 获取用户详细信息
     await store.dispatch('user/getUserDetail', store.state.login.loginInfo.userData.profile.userId);
+    // 获取用户歌单
+    await store.dispatch('user/getUserPlayList', store.state.login.loginInfo.userData.profile.userId);
+    await store.dispatch('user/getLikelist', store.state.login.loginInfo.userData.profile.userId);
   }
 });
 Vue.use(vuescroll);
@@ -49,6 +58,7 @@ Vue.use(VueLazyLoad, {
 Vue.prototype.$remoteInterface = remoteInterface;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
+Vue.prototype.$Modal = Modal;
 Vue.prototype.$Notice.config({
   duration: 2.5,
   top: 60
@@ -66,6 +76,10 @@ Vue.component('FormItem', FormItem);
 Vue.component('Poptip', Poptip);
 Vue.component('Spin', Spin);
 Vue.component('Page', Page);
+Vue.component('Checkbox', Checkbox);
+Vue.component('Breadcrumb', Breadcrumb);
+Vue.component('BreadcrumbItem', BreadcrumbItem);
+Vue.component('Table', Table);
 
 Vue.config.productionTip = false;
 
@@ -80,7 +94,7 @@ Vue.prototype.$vuescrollConfig = {
     initialScrollX: false,
     scrollingX: true, // 是否启用 x 或者 y 方向上的滚动
     scrollingY: true,
-    speed: 300, // 多长时间内完成一次滚动。 数值越小滚动的速度越快
+    speed: 1000, // 多长时间内完成一次滚动。 数值越小滚动的速度越快
     easing: undefined, // 滚动动画 参数通animation
     verticalNativeBarPos: 'right'// 原生滚动条的位置
   },
@@ -94,8 +108,6 @@ Vue.prototype.$vuescrollConfig = {
     keepShow: false // 是否即使 bar 不存在的情况下也保持显示
   },
   bar: {
-    showDelay: 500, // 在鼠标离开容器后多长时间隐藏滚动条
-    onlyShowBarOnScroll: false, // 当页面滚动时显示
     keepShow: true, // 是否一直显示
     background: '#c3c3c3',
     opacity: 1,
@@ -107,6 +119,42 @@ Vue.prototype.$vuescrollConfig = {
   }, // 在这里设置全局默认配置
   name: 'vuescroll' // 在这里自定义组件名字，默认是vueScroll
 };
+
+// 格式化日期
+Vue.filter('dateformat', (value, format) => {
+  return moment(value).format(format);
+});
+
+// 格式化评论发表时间
+Vue.filter('commentDateFormat', (value) => {
+  moment.locale('zh-cn');
+  const timeSub = Date.now() - value;
+  const minute = timeSub / 1000 / 60;
+  if (minute < 10) {
+    // 少于10分钟
+    return '刚刚';
+  } else if (minute < 60) {
+    // 少于60分钟
+    return moment(value).startOf('hour').fromNow();
+  } else if (minute > 60 && minute < 60 * 24) {
+    // 大于于60分钟并且小于一天24小时
+    return moment(value).format('HH:MM');
+  } else if (minute > 60 * 24 && minute < 60 * 24 * 24) {
+    // 大于一天但是小于昨天
+    return moment(value).format('昨天 HH:MM');
+    // return moment(value).subtract(1, 'days').calendar();
+  } else {
+    // 具体日期
+    if (moment(value).format('YYYY') !== moment(Date.now()).format('YYYY')) {
+      return moment(value).format('YYYY年M月D日，HH:MM');
+    } else {
+      return moment(value).format('M月D日  HH:MM');
+    }
+  }
+});
+
+// 懒加载指令
+Vue.directive('lazyload', lazyImg);
 
 new Vue({
   router,

@@ -21,6 +21,7 @@ module.exports = {
     'consistent-return': 0,
     'no-shadow': 2,
     'no-dupe-keys': 2, // 在创建对象字面量时不允许键重复 {a:1,a:1}
-    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }]
+    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }],
+    'no-unused-vars': ["error", { "args": "none" }]
   }
 };

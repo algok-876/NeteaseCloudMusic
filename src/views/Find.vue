@@ -21,6 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 .find{
+  padding: 0 25px;
   .find-menu{
     width: 100%;
     display: flex;

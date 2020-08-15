@@ -13,7 +13,7 @@
           <Icon type="ios-loading" size=18 class="load"></Icon>
           载入中...
         </Spin>
-        <li class="item" v-for="(item, index) in data" :key="index" :style="{width: `${100 / rowCount - 1.3}%`}">
+        <li class="item" v-for="(item, index) in data" :key="index" :style="{width: `${100 / rowCount - 1.3}%`}" @click="handleClick(item.id)">
           <template v-if="type==='songlist' || type==='mv'">
             <span class="copywriter">{{item.copywriter}}</span>
             <span class="count">
@@ -34,7 +34,14 @@
 
 <script>
 export default {
-  props: ['title', 'data', 'rowCount', 'type', 'more', 'loading']
+  props: ['title', 'data', 'rowCount', 'type', 'more', 'loading'],
+  methods: {
+    handleClick (id) {
+      if (this.type === 'songlist') {
+        this.$router.push('/pldetail?id=' + id);
+      }
+    }
+  }
 };
 </script>
 

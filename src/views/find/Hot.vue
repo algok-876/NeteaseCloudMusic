@@ -61,15 +61,16 @@
           </div>
           <span>精品歌单轻型推荐，给懂音乐的你</span>
         </li>
-        <li class="playlistitem" v-for="(item, index) in playList" :key="index" :style="{width: `${100 / 5 - 1.3}%`}">
+        <li class="playlistitem" v-for="(item, index) in playList" :key="index" :style="{width: `${100 / 5 - 1.3}%`}" @click="$router.push('/pldetail?id=' + item.id)">
           <span class="count">
             <Icon custom="iconfont icon-erji" size="15"/>
             {{Math.trunc(item.playCount / 10000)}}万
           </span>
           <div class="img-box">
             <Icon custom="iconfont icon-bofang" size="28" class="playBtn"/>
-            <img v-lazy="item.coverImgUrl" :alt="item.createTime">
+            <img v-lazyload="item.coverImgUrl" :alt="item.createTime">
             <div class="create-box">
+              <Icon type="ios-contact-outline" size="18"/>
               <span class="nickname">{{item.creator.nickname}}</span>
             </div>
           </div>
@@ -379,7 +380,9 @@ export default {
         }
         .create-box{
           width: 100%;
-          display: block;
+          display: flex;
+          align-items: center;
+          padding: 0 10px;
           height: 25px;
           color: #fff;
           position: absolute;
@@ -390,6 +393,9 @@ export default {
             color: #fff;
             font-size: 13px;
             text-shadow: 0 0 0 1px #4b4b4b;
+            margin: 0;
+            position: relative;
+            left: 10px;
           }
         }
       }

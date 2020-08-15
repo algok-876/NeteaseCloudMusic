@@ -9,11 +9,11 @@
       </div>
       <!-- 前进后退按钮组 -->
       <ButtonGroup size="small">
-          <Button ghost>
+          <Button ghost @click="$router.back()">
             <Icon type="ios-arrow-back" />
           </Button>
           <Button ghost>
-            <Icon type="ios-arrow-forward" />
+            <Icon type="ios-arrow-forward" @click="$router.go()"/>
           </Button>
       </ButtonGroup>
       <!-- 搜索 -->

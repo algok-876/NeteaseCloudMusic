@@ -259,6 +259,9 @@ export default {
             this.$Notice.success({
               desc: '恭喜你，登录成功！'
             });
+            // 登录成功后需要获取用户歌单
+            this.$store.dispatch('user/getUserPlayList', this.$store.state.login.loginInfo.userData.profile.userId);
+            this.$store.dispatch('user/getLikelist', this.$store.state.login.loginInfo.userData.profile.userId);
           }
         } else {
           this.$Message.warning('请检查表单');
@@ -276,6 +279,7 @@ export default {
         });
         this.$store.commit('login/setLoginInfo', {});
         this.$store.commit('user/setUserDetail', {});
+        this.$router.push('/');
       }
     },
     // 打开一个新窗口

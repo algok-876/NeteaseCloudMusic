@@ -8,6 +8,7 @@
       type="songlist"
       more="/find/playlist/hot"
       :loading="loading"
+      v-if="loginInfo.status"
     ></recList>
     <recList title="最新音乐" more="/">
       <ul class="newSongs">
@@ -64,7 +65,6 @@ export default {
       const res = await this.$remoteInterface.getSongList();
       if (res.code === 200) {
         this.recSongList = res.recommend.slice(5, 15);
-        console.log(this.recSongList);
       }
       const NewSongs = this.$remoteInterface.getNewSongs();
       const Djprogram = this.$remoteInterface.getDjprogram();
@@ -85,7 +85,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('find', ['banners'])
+    ...mapState('find', ['banners']),
+    ...mapState('login', ['loginInfo'])
   },
   components: {
     Swiper,

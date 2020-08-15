@@ -1,16 +1,20 @@
 <template>
-  <div class="home">
-    <slide-bar></slide-bar>
-    <vue-scroll>
-      <div class="main-container">
-        <router-view></router-view>
-      </div>
-    </vue-scroll>
+  <div>
+    <div class="home">
+      <slide-bar></slide-bar>
+      <vue-scroll>
+        <div class="main-container">
+          <router-view></router-view>
+        </div>
+      </vue-scroll>
+    </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import SlideBar from '../components/SlideBar';
+import Footer from '../components/Footer';
 export default {
   name: 'Home',
   created () {
@@ -18,7 +22,8 @@ export default {
   methods: {
   },
   components: {
-    SlideBar
+    SlideBar,
+    Footer
   }
 };
 </script>
@@ -28,7 +33,7 @@ export default {
   height: calc(100vh - 100px);
   display: flex;
   .main-container{
-    padding: 0 25px;
+    // padding: 0 25px;
     flex: 1;
     height: 100%;
     overflow: hidden;
