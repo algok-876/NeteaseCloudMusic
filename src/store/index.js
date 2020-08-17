@@ -4,6 +4,7 @@ import login from './login';
 import user from './user';
 import find from './find';
 import slidebar from './slidebar';
+import player from './player';
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     login,
     user,
     find,
-    slidebar
+    slidebar,
+    player
   }
 });

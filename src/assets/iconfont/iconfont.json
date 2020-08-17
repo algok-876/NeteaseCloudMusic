@@ -6,6 +6,118 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1388984",
+      "name": "分享",
+      "font_class": "fenxiang",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "2946038",
+      "name": "分享",
+      "font_class": "fenxiang1",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "3493803",
+      "name": "播放",
+      "font_class": "bofang7",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "3647840",
+      "name": "播放 （fm播放列表）",
+      "font_class": "bofangfmbofangliebiao",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "521457",
+      "name": "播放",
+      "font_class": "bofang6",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "684601",
+      "name": "无声音_块",
+      "font_class": "wushengyinkuai",
+      "unicode": "e740",
+      "unicode_decimal": 59200
+    },
+    {
+      "icon_id": "13815129",
+      "name": "暂停 停止",
+      "font_class": "zantingtingzhi1",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "13870437",
+      "name": "声音",
+      "font_class": "shengyin",
+      "unicode": "e805",
+      "unicode_decimal": 59397
+    },
+    {
+      "icon_id": "7936263",
+      "name": "播放列表",
+      "font_class": "bofangliebiao",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "8194172",
+      "name": "喇叭 - 网易icon",
+      "font_class": "laba",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "12905230",
+      "name": "词",
+      "font_class": "ci",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "5253852",
+      "name": "播放",
+      "font_class": "bofang4",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "6078906",
+      "name": "播放",
+      "font_class": "bofang5",
+      "unicode": "e81a",
+      "unicode_decimal": 59418
+    },
+    {
+      "icon_id": "8282342",
+      "name": "上一首",
+      "font_class": "shangyishou2",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "11018958",
+      "name": "上一首",
+      "font_class": "shangyishoux",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "11168062",
+      "name": "上一首",
+      "font_class": "shangyishou3",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
       "icon_id": "6842023",
       "name": "赞",
       "font_class": "zan",

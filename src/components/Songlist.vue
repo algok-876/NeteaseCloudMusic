@@ -11,8 +11,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(song, index) in songs" :key="song.id" :class="{active: index === activeTr}" @click="activeTr = index">
-        <td style="max-width:30px;text-align:center">{{index + 1 >= 10 ? index + 1: '0'+ (index + 1)}}</td>
+      <tr v-for="(song, index) in songs" :key="index" :class="{active: index === activeTr}" @click="activeTr = index" @dblclick="playMusic(song)">
+        <td style="max-width:50px;text-align:center">
+          <span v-if="song.id!==curAudioInfo.id">
+            {{index + 1 >= 10 ? index + 1: '0'+ (index + 1)}}
+          </span>
+          <div v-else>
+            <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
+          </div>
+        </td>
         <td style="max-width:80px">
           <span @click="likeSong(song.id, index)">
             <Icon :custom="likelist.indexOf(song.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(song.id) >= 0}"/>
@@ -26,7 +33,7 @@
           <Icon v-if="song.mv" custom="iconfont icon-mv" style="display:inline-block;margin-left:10px;color:#cd2929"></Icon>
         </td>
         <td style="max-width:400px" class="songers">
-          <span v-for="ar in song.ar" :key="ar.id">{{ar.name}}</span>
+          <span v-for="(ar, index) in song.ar" :key="index">{{ar.name}}</span>
         </td>
         <td style="max-width:230px" :title="song.al.name">
           <span>{{song.al.name}}</span>
@@ -84,10 +91,17 @@ export default {
         this.$Message.warning('出错啦，请重试！');
       }
       this.$store.dispatch('user/getLikelist', this.$store.state.login.loginInfo.userData.profile.userId);
+    },
+    playMusic (song) {
+      this.$store.commit('player/setAudioData', song);
+      this.$store.commit('player/setCurSongInfo', song);
+      // 将此歌单的所有歌曲做为播放列表
+      this.$store.commit('player/setPlaylist', this.songs);
     }
   },
   computed: {
-    ...mapState('user', ['likelist'])
+    ...mapState('user', ['likelist']),
+    ...mapState('player', ['curAudioInfo'])
   }
 };
 </script>
@@ -101,7 +115,7 @@ export default {
   tr{
     height: 30px;
     &.active{
-      background-color: #cecece!important;
+      background-color: RGB(227,227,229)!important;
       color: #000!important;
     }
   }
@@ -145,10 +159,10 @@ export default {
         }
       }
       &:nth-of-type(even) {
-        background-color: #f5f5f7;
+        background-color: RGB(245,245,247);
       }
       &:hover{
-        background-color: #cecece;
+        background-color: RGB(235,236,237);
         color: #000;
       }
       .songers{

@@ -19,7 +19,8 @@ import {
   Checkbox,
   Breadcrumb,
   BreadcrumbItem,
-  Table
+  Table,
+  Drawer
 } from 'view-design';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueLazyLoad from 'vue-lazyload';
@@ -80,6 +81,7 @@ Vue.component('Checkbox', Checkbox);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('BreadcrumbItem', BreadcrumbItem);
 Vue.component('Table', Table);
+Vue.component('Drawer', Drawer);
 
 Vue.config.productionTip = false;
 
@@ -151,6 +153,14 @@ Vue.filter('commentDateFormat', (value) => {
       return moment(value).format('M月D日  HH:MM');
     }
   }
+});
+
+Vue.filter('duration', (value) => {
+  if (value === 0) return '00:00';
+  const time = moment.duration(value * 1000);
+  const minutes = time.minutes() < 10 ? '0' + time.minutes() : time.minutes();
+  const seconds = time.seconds() < 10 ? '0' + time.seconds() : time.seconds();
+  return minutes + ':' + seconds;
 });
 
 // 懒加载指令

@@ -1,6 +1,6 @@
 <template>
   <div class="slidebar">
-    <vue-scroll>
+    <vue-scroll style="flex:1">
       <div class="wrapper">
         <slidemenu title="推荐" :menulist="recMenu"></slidemenu>
         <template v-if="loginInfo.status">
@@ -24,6 +24,7 @@
         </template>
       </div>
     </vue-scroll>
+    <curSongShow></curSongShow>
     <textMenu width="200px" :top="menuOffset.top" :left="menuOffset.left" v-if="textMenuVisible"></textMenu>
   </div>
 </template>
@@ -32,6 +33,7 @@
 import slidemenu from '../components/menu';
 import { mapState } from 'vuex';
 import textMenu from '../components/textMenu';
+import curSongShow from '../components/play/curSongShow';
 export default {
   data () {
     return {
@@ -116,7 +118,8 @@ export default {
   },
   components: {
     slidemenu,
-    textMenu
+    textMenu,
+    curSongShow
   }
 };
 </script>
@@ -124,6 +127,8 @@ export default {
 <style lang="scss" scoped>
 .slidebar{
   width: 200px;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   background-color: rgb(245, 245, 246);
   box-sizing: content-box;

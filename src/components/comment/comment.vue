@@ -57,14 +57,6 @@ export default {
       type: Boolean
     }
   },
-  data () {
-    return {};
-  },
-  mounted () {
-    setTimeout(() => {
-      console.log(this.comments);
-    }, 4000);
-  },
   methods: {
     pageChange (newpage) {
       this.$emit('page-change', newpage - 1);
