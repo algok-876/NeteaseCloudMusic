@@ -1,19 +1,19 @@
 <template>
   <div class="cur-song-show">
     <div class="al-pic">
-      <img :src="curSongInfo.al.picUrl+'?param=100y100'" alt />
+      <img :src="curAudioInfo.al.picUrl+'?param=100y100'" alt />
     </div>
     <div class="text">
-      <p class="name">{{curSongInfo.al.name}}</p>
+      <p class="name">{{curAudioInfo.name}}</p>
       <p class="ar">
-        <span v-for="(ar, index) in curSongInfo.ar" :key="index">{{ar.name}}</span>
+        <span v-for="(ar, index) in curAudioInfo.ar" :key="index">{{ar.name}}</span>
       </p>
     </div>
     <div class="icon">
-      <p @click="likeSong(curSongInfo.id)">
+      <p @click="likeSong(curAudioInfo.id)">
         <Icon
-          :custom="likelist.indexOf(curSongInfo.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'"
-          :class="{like: likelist.indexOf(curSongInfo.id) >= 0}"
+          :custom="likelist.indexOf(curAudioInfo.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'"
+          :class="{like: likelist.indexOf(curAudioInfo.id) >= 0}"
         />
       </p>
       <p>
@@ -47,49 +47,12 @@ export default {
     }
   },
   computed: {
-    ...mapState('player', ['curSongInfo']),
+    ...mapState('player', ['curAudioInfo']),
     ...mapState('user', ['likelist'])
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.like {
-  color: #cd2929;
-}
-.cur-song-show {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 7px;
-  border-top: 1px solid #e1e1e2;
-  .al-pic {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #e1e1e2;
-    img {
-      width: 100%;
-    }
-  }
-  .text {
-    flex: 1;
-    margin: 0 7px;
-    overflow: hidden;
-    p {
-      font-size: 12px;
-      width: 100%;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .ar {
-      color: rgb(185, 185, 185);
-      span:nth-child(n + 2) {
-        &::before {
-          content: "  /  ";
-        }
-      }
-    }
-  }
-}
+@import '../../assets/sass/components/curSongShow.scss';
 </style>

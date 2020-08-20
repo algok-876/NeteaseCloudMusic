@@ -1,0 +1,68 @@
+.like{
+  color: #cd2929;
+}
+.song-table{
+  width: 100%;
+  tr{
+    height: 30px;
+    &.active{
+      background-color: RGB(227,227,229)!important;
+      color: #000!important;
+    }
+  }
+  td{
+    font-size: 14px;
+    padding-left: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    i{
+      cursor: pointer;
+    }
+    span{
+      font-size: 14px;
+    }
+  }
+  thead{
+    tr{
+      td{
+        &:nth-child(1){
+          border-left: 0;
+        }
+        border: 1px solid #e1e1e2;
+        border-right: 0;
+      }
+    }
+  }
+  tbody{
+    tr{
+      color: #666;
+      td{
+        &:nth-child(2) {
+          span{
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 5px;
+          }
+        }
+        &:nth-child(3) {
+          color: #000;
+        }
+      }
+      &:nth-of-type(even) {
+        background-color: RGB(245,245,247);
+      }
+      &:hover{
+        background-color: RGB(235,236,237);
+        color: #000;
+      }
+      .songers{
+        span:nth-child(n + 2){
+          &::before{
+            content: "  /  ";
+          }
+        }
+      }
+    }
+  }
+}

@@ -155,9 +155,9 @@ Vue.filter('commentDateFormat', (value) => {
   }
 });
 
-Vue.filter('duration', (value) => {
+Vue.filter('duration', (value, mOrms = true) => {
   if (value === 0) return '00:00';
-  const time = moment.duration(value * 1000);
+  const time = moment.duration(mOrms ? value * 1000 : value);
   const minutes = time.minutes() < 10 ? '0' + time.minutes() : time.minutes();
   const seconds = time.seconds() < 10 ? '0' + time.seconds() : time.seconds();
   return minutes + ':' + seconds;

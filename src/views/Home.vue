@@ -29,14 +29,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home{
-  height: calc(100vh - 100px);
-  display: flex;
-  .main-container{
-    // padding: 0 25px;
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
-  }
-}
+@import '../assets/sass/layout/Home.scss';
 </style>

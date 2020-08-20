@@ -25,14 +25,14 @@
       </div>
     </vue-scroll>
     <curSongShow></curSongShow>
-    <textMenu width="200px" :top="menuOffset.top" :left="menuOffset.left" v-if="textMenuVisible"></textMenu>
+    <ContextMenu width="200px" :top="menuOffset.top" :left="menuOffset.left" v-if="textMenuVisible"></ContextMenu>
   </div>
 </template>
 
 <script>
 import slidemenu from '../components/menu';
 import { mapState } from 'vuex';
-import textMenu from '../components/textMenu';
+import ContextMenu from '../components/ContextMenu';
 import curSongShow from '../components/play/curSongShow';
 export default {
   data () {
@@ -118,41 +118,12 @@ export default {
   },
   components: {
     slidemenu,
-    textMenu,
+    ContextMenu,
     curSongShow
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.slidebar{
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: rgb(245, 245, 246);
-  box-sizing: content-box;
-  border-right: 1px solid rgb(225, 225, 226);
-}
-.wrapper{
-  width: 200px;
-  // padding-right: 8px;
-}
-.add-play-list{
-  padding: 20px 15px;
-  .title{
-    font-weight: 400;
-    font-size: 20px;
-    letter-spacing: 2px;
-  }
-  .form{
-    margin: 25px 0;
-    display: flex;
-    flex-direction: column;
-  }
-  .footer{
-    display: flex;
-    justify-content: center;
-  }
-}
+@import '../assets/sass/layout/SliderBar.scss';
 </style>

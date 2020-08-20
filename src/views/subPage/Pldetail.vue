@@ -160,15 +160,19 @@ export default {
       const songUrls = await this.$remoteInterface.getSongUrl(
         songids.join(',')
       );
-      if (songUrls.code !== 200) return;
+      if (songUrls.code !== 200) {
+        return;
+      };
       // 重组歌曲详情列表和每首歌对应的url
       this.songlist = this.songlist.map((item, index) => {
         return {
+          order: index,
           id: item.id,
           name: item.name,
           ar: item.ar,
           al: item.al,
           mv: item.mv,
+          dt: item.dt,
           songurl: songUrls.data.find((urlItem) => {
             return urlItem.id === item.id;
           }).url
@@ -231,152 +235,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ivu-breadcrumb > span:last-child {
-  font-weight: normal;
-}
-.playlist-detail-wrapper {
-  position: relative;
-  .base-info {
-    padding: 25px;
-    display: flex;
-    position: relative;
-    align-items: flex-start;
-    .playlist-count-play {
-      position: absolute;
-      right: 25px;
-      top: 25px;
-      display: flex;
-      color: #999999;
-      .count {
-        border-right: 1px solid #e1e1e2;
-        padding-right: 15px;
-        margin-right: 15px;
-      }
-      .number {
-        font-weight: 600;
-        text-align: right;
-      }
-    }
-    .coverimg {
-      border: 1px solid #e1e1e2;
-      font-size: 0;
-      width: 200px;
-      img {
-        width: 100%;
-      }
-    }
-    .right-text {
-      flex: 1;
-      margin-left: 25px;
-      p {
-        margin-bottom: 10px;
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-      .name {
-        display: flex;
-        align-items: center;
-        span {
-          display: inline-block;
-          border: 1px solid #e03f40;
-          font-size: 14px;
-          color: #e03f40;
-          padding: 0 5px;
-          margin-right: 10px;
-        }
-        font-size: 20px;
-        font-weight: 400;
-      }
-      .avatar-info {
-        .nickname {
-          display: inline-block;
-          margin-left: 10px;
-          color: rgb(97, 97, 97);
-        }
-        .cratetime {
-          display: inline-block;
-          margin-left: 20px;
-          color: rgb(168, 168, 168);
-        }
-      }
-      .tags {
-        display: flex;
-        margin-bottom: 10px;
-      }
-      .summary{
-        position: relative;
-        overflow: hidden;
-        pre{
-          display: -moz-box;
-          display: -webkit-box;
-          box-orient: vertical;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-          line-clamp: 2;
-          overflow: hidden;
-          white-space: pre-wrap;
-          &.unfold{
-            -webkit-line-clamp:unset;
-            line-clamp: unset;
-          }
-        }
-        .collapse{
-          position: absolute;
-          right: 0;
-          top: 0;
-          color: rgb(112, 112, 112);
-          cursor: pointer;
-        }
-      }
-    }
-  }
-  /* tab切换 */
-  .tab {
-    .switch-tab {
-      padding: 10px 25px;
-      padding-bottom: 0;
-      span {
-        display: inline-block;
-        margin-right: 25px;
-        font-size: 15px;
-        cursor: pointer;
-        padding: 2px 5px;
-        &.active {
-          color: #e03f40;
-          border-bottom: 4px solid #e03f40;
-        }
-      }
-    }
-  }
-}
-.subscribers{
-  .ivu-avatar-circle{
-    border: 1px solid #e1e1e2;
-  }
-  margin: 0;
-  padding: 5px;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  li{
-    // width: calc(100% / 11);
-    width: 155px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 35px 0;
-    color: rgb(116, 116, 116);
-    span{
-      font-size: 12px;
-      display: block;
-      margin-top: 8px;
-    }
-    &:last-child{
-      margin-right: auto;
-    }
-  }
-}
+@import '../../assets/sass/components/Pldetail.scss';
 </style>

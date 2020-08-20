@@ -96,31 +96,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.textMenu{
-  position: absolute;
-  z-index: 999;
-  background-color: #fafafc;
-  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, .1);
-  border: 1px solid #e1e1e2;
-  .menu{
-    list-style: none;
-    margin: 0;
-    padding: 2px;
-    li{
-      line-height: 35px;
-      padding: 0 10px;
-      cursor: pointer;
-      &:hover{
-        background-color: rgb(228, 228, 228);
-      }
-      i{
-        color: #999999;
-      }
-      span{
-        display: inline-block;
-        margin-left: 10px;
-      }
-    }
-  }
-}
+@import '../assets/sass/components/ContextMenu.scss';
 </style>

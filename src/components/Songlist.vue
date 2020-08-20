@@ -10,9 +10,9 @@
         <td>时长</td>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="(song, index) in songs" :key="index" :class="{active: index === activeTr}" @click="activeTr = index" @dblclick="playMusic(song)">
-        <td style="max-width:50px;text-align:center">
+    <tbody @dblclick="delegation">
+      <tr v-for="(song, index) in songs" :key="index" :class="{active: index === activeTr}" @click="activeTr = index">
+        <td style="max-width:50px;text-align:center" :i="index">
           <span v-if="song.id!==curAudioInfo.id">
             {{index + 1 >= 10 ? index + 1: '0'+ (index + 1)}}
           </span>
@@ -20,7 +20,7 @@
             <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
           </div>
         </td>
-        <td style="max-width:80px">
+        <td style="max-width:80px" :i="index">
           <span @click="likeSong(song.id, index)">
             <Icon :custom="likelist.indexOf(song.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(song.id) >= 0}"/>
           </span>
@@ -28,18 +28,18 @@
             <Icon type="ios-cloud-download-outline" size="16"/>
           </span>
         </td>
-        <td :title="song.name">
+        <td :title="song.name" :i="index">
           <span>{{song.name}}</span>
           <Icon v-if="song.mv" custom="iconfont icon-mv" style="display:inline-block;margin-left:10px;color:#cd2929"></Icon>
         </td>
-        <td style="max-width:400px" class="songers">
+        <td style="max-width:400px" class="songers" :i="index">
           <span v-for="(ar, index) in song.ar" :key="index">{{ar.name}}</span>
         </td>
-        <td style="max-width:230px" :title="song.al.name">
+        <td style="max-width:230px" :title="song.al.name" :i="index">
           <span>{{song.al.name}}</span>
         </td>
-        <td style="max-width:100px">
-          <span></span>
+        <td style="max-width:100px" :i="index">
+          <span>{{song.dt | duration(false)}}</span>
         </td>
       </tr>
     </tbody>
@@ -92,11 +92,12 @@ export default {
       }
       this.$store.dispatch('user/getLikelist', this.$store.state.login.loginInfo.userData.profile.userId);
     },
-    playMusic (song) {
-      this.$store.commit('player/setAudioData', song);
-      this.$store.commit('player/setCurSongInfo', song);
+    delegation (e) {
+      const index = Number(e.target.getAttribute('i') || e.target.parentElement.getAttribute('i'));
+      this.$store.commit('player/setAudioData', this.songs[index]);
       // 将此歌单的所有歌曲做为播放列表
       this.$store.commit('player/setPlaylist', this.songs);
+      console.log(e.target.offsetTop);
     }
   },
   computed: {
@@ -107,72 +108,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.like{
-  color: #cd2929;
-}
-.song-table{
-  width: 100%;
-  tr{
-    height: 30px;
-    &.active{
-      background-color: RGB(227,227,229)!important;
-      color: #000!important;
-    }
-  }
-  td{
-    font-size: 14px;
-    padding-left: 10px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    i{
-      cursor: pointer;
-    }
-    span{
-      font-size: 14px;
-    }
-  }
-  thead{
-    tr{
-      td{
-        &:nth-child(1){
-          border-left: 0;
-        }
-        border: 1px solid #e1e1e2;
-        border-right: 0;
-      }
-    }
-  }
-  tbody{
-    tr{
-      color: #666;
-      td{
-        &:nth-child(2) {
-          span{
-            cursor: pointer;
-            display: inline-block;
-            margin-right: 5px;
-          }
-        }
-        &:nth-child(3) {
-          color: #000;
-        }
-      }
-      &:nth-of-type(even) {
-        background-color: RGB(245,245,247);
-      }
-      &:hover{
-        background-color: RGB(235,236,237);
-        color: #000;
-      }
-      .songers{
-        span:nth-child(n + 2){
-          &::before{
-            content: "  /  ";
-          }
-        }
-      }
-    }
-  }
-}
+@import '../assets/sass/components/Songlist.scss';
 </style>

@@ -1,4 +1,5 @@
 import neteaseApi from './axios_config';
+import axios from 'axios';
 
 function addTimeStamp (url) {
   return url + '/' + Date.now();
@@ -50,11 +51,17 @@ async function getSongDetail (ids) {
 
 // 获取音乐url
 async function getSongUrl (id) {
-  const res = await neteaseApi.post(addTimeStamp('/song/url'), {
-    id
-  });
+  const res = await neteaseApi.post(addTimeStamp('/song/url'), { id });
   return res;
 }
+
+// 获取音乐blob对象
+async function getBlob (url) {
+  const blob = await axios.get(url, {
+    responseType: 'blob'
+  });
+  return blob;
+};
 
 // 获取用户喜欢的音乐列表
 async function getLikelist (uid) {
@@ -97,5 +104,6 @@ export default {
   getSongUrl,
   getLikelist,
   likeSong,
-  subscribe
+  subscribe,
+  getBlob
 };

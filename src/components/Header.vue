@@ -45,28 +45,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hd{
-  height: 50px;
-  background-color: rgb(198, 47, 47);
-  display: flex;
-  justify-content: space-between;
-  .left{
-    display: flex;
-    align-items: center;
-    .logo{
-      font-size: 0;
-      width: 200px;
-    }
-    .search{
-      display: flex;
-      justify-content: center;
-      margin-left: 35px;
-    }
-  }
-  .right{
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-  }
-}
+@import '../assets/sass/layout/Header.scss';
 </style>

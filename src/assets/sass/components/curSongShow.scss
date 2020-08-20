@@ -1,0 +1,38 @@
+.like {
+  color: #cd2929;
+}
+.cur-song-show {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  border-top: 1px solid #e1e1e2;
+  .al-pic {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #e1e1e2;
+    img {
+      width: 100%;
+    }
+  }
+  .text {
+    flex: 1;
+    margin: 0 7px;
+    overflow: hidden;
+    p {
+      font-size: 12px;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ar {
+      color: rgb(185, 185, 185);
+      span:nth-child(n + 2) {
+        &::before {
+          content: "  /  ";
+        }
+      }
+    }
+  }
+}
