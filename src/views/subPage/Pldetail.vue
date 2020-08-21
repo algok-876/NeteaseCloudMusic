@@ -30,6 +30,12 @@
             custom-icon="iconfont icon-fenxiang2"
             style="margin-left:15px"
           >分享({{playlistData.shareCount}})</Button>
+          <Button
+            custom-icon="iconfont icon-xiazai1"
+            style="margin-left:15px"
+            @click="downloadAllSongs"
+            :disabled="isDownloadAll"
+          >{{isDownloadAll ? '正在下载，请稍后' : '下载全部'}}</Button>
         </p>
         <div class="tags" v-if="playlistData.tags.length>0">
           标签：
@@ -100,6 +106,7 @@
 <script>
 import Songlist from '../../components/Songlist';
 import Comment from '../../components/comment/comment';
+import downloadMp3 from '../../func/download';
 import { mapState } from 'vuex';
 export default {
   data () {
@@ -116,7 +123,9 @@ export default {
       commentLoading: false,
       // 歌单收藏者
       subscribes: [],
-      subLoading: false
+      subLoading: false,
+      // 是否在下载中
+      isDownloadAll: false
     };
   },
   mounted () {
@@ -216,6 +225,29 @@ export default {
       this.subLoading = true;
       await this.getSubscribers(newpage - 1);
       this.subLoading = false;
+    },
+    async downloadAllSongs (e) {
+      const that = this;
+      this.$Modal.confirm({
+        title: '确认窗口',
+        content: '<p>确认全部下载吗？</p>',
+        cancelText: '不，再想想',
+        onOk: async () => {
+          this.isDownloadAll = true;
+          const downlaodList = this.songlist.map(value => ({
+            name: value.name,
+            url: value.songurl
+          }));
+          await downloadMp3(percent => {
+            console.log(percent);
+            that.$Loading.update(percent);
+            if (percent === 100) {
+              that.$Loading.finish();
+            }
+          }, ...downlaodList);
+          this.isDownloadAll = false;
+        }
+      });
     }
   },
   watch: {

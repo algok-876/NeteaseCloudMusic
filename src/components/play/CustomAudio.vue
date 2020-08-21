@@ -224,28 +224,35 @@ export default {
         this.$store.commit('player/setAudioData', this.playlist[lastSongOrder]);
       } else if (this.curPlayMode === 2) {
         lastSongOrder = this.randomSongOrder--;
+        // 如果当前随机播放的歌曲序号小于0,那么随机播放，将播放歌曲插入随机播放记录列表的第一位
+        if (this.randomSongOrder < 0) {
+          lastSongOrder = _.random(0, this.playlist.length - 1);
+          this.randomSongs.splice(0, 0, this.playlist[lastSongOrder]);
+          this.$store.commit('player/setAudioData', this.randomSongs[0]);
+          this.randomSongOrder = 0;
+          return;
+        }
         this.$store.commit('player/setAudioData', this.randomSongs[lastSongOrder]);
       }
     },
     nextSong () {
       let nextSongOrder = '';
-      if (this.curPlayMode === 0) {
+      if (this.curPlayMode === 0 || this.curPlayMode === 1) {
         nextSongOrder = this.curAudioInfo.order + 1;
         if (nextSongOrder > this.playlist.length - 1) {
           nextSongOrder = 0;
         }
-      } else if (this.curPlayMode === 1) {
-        this.startPlay();
       } else if (this.curPlayMode === 2) {
+        // 如果当前随机播放的歌曲序号小于随机歌曲记录列表，按顺序往下继续播放
         if (this.randomSongOrder <= this.randomSongs.length - 1) {
           nextSongOrder = this.randomSongOrder++;
           this.$store.commit('player/setAudioData', this.randomSongs[nextSongOrder]);
           return;
         }
+        // 否则往下继续随机播放，并加入随机歌曲记录列表
         nextSongOrder = _.random(0, this.playlist.length - 1);
         this.randomSongs.push(this.playlist[nextSongOrder]);
         this.randomSongOrder = this.randomSongs.length - 1;
-        console.log(this.randomSongs);
       }
       this.$store.commit('player/setAudioData', this.playlist[nextSongOrder]);
     }

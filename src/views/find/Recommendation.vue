@@ -12,9 +12,14 @@
     ></recList>
     <recList title="最新音乐" more="/">
       <ul class="newSongs">
-        <li v-for="(item, index) in newSong" :key="item.id">
-          <!-- eslint-disable-next-line vue/no-parsing-error -->
-          <span class="order">{{ index + 1 < 10 ? '0' + (index + 1) :index + 1 }}</span>
+        <li v-for="(item, index) in songlist" :key="item.id" @dblclick="playMusic(item)" @click="liActive = index" :class="{active: liActive === index}">
+          <div style="width:20px">
+            <!-- eslint-disable-next-line vue/no-parsing-error -->
+            <span class="order" v-if="item.id!==curAudioInfo.id">{{ index + 1 < 10 ? '0' + (index + 1) :index + 1 }}</span>
+            <div v-else>
+              <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
+            </div>
+          </div>
           <div class="img-box" v-lazy:background-image="item.picUrl + '?param=40y40'">
             <Icon custom="iconfont icon-icon-test" size="28" />
           </div>
@@ -26,9 +31,9 @@
                 custom="iconfont icon-mv"
                 size="17"
                 style="color:#c62f2f"
-                v-if="item.song.mvid"
+                v-if="item.mv"
               />
-              <span>{{item.song.artists[0].name}}</span>
+              <span>{{item.ar[0].name}}</span>
             </p>
           </div>
         </li>
@@ -52,11 +57,14 @@ export default {
       djprogram: [],
       recMv: [],
       privatecontent: [],
-      loading: false
+      loading: false,
+      songlist: [],
+      liActive: ''
     };
   },
-  mounted () {
-    this.setSongList();
+  async mounted () {
+    await this.setSongList();
+    this.integrateSongList();
   },
   methods: {
     async setSongList () {
@@ -79,14 +87,45 @@ export default {
       // 关闭加载动画
       this.loading = false;
       this.newSong = result[0].result;
+      console.log(this.newSong);
       this.recMv = result[1].result;
       this.djprogram = result[2].result;
       this.privatecontent = result[3].result;
+    },
+    async integrateSongList () {
+      const songIds = [];
+      this.newSong.forEach(value => {
+        songIds.push(value.id);
+      });
+      const songUrls = await this.$remoteInterface.getSongUrl(
+        songIds.join(',')
+      );
+      this.songlist = this.newSong.map((item, index) => {
+        return {
+          order: index,
+          id: item.id,
+          name: item.name,
+          ar: item.song.album.artists,
+          al: { ...item.song.album.artist, picUrl: item.picUrl },
+          mv: item.song.mvid,
+          dt: item.duration,
+          picUrl: item.picUrl,
+          songurl: songUrls.data.find((urlItem) => {
+            return urlItem.id === item.id;
+          }).url
+        };
+      });
+    },
+    playMusic (song) {
+      this.$store.commit('player/setAudioData', song);
+      // 将此歌单的所有歌曲做为播放列表
+      this.$store.commit('player/setPlaylist', this.songlist);
     }
   },
   computed: {
     ...mapState('find', ['banners']),
-    ...mapState('login', ['loginInfo'])
+    ...mapState('login', ['loginInfo']),
+    ...mapState('player', ['curAudioInfo'])
   },
   components: {
     Swiper,
@@ -116,6 +155,9 @@ avarat */
     align-items: center;
     width: 50%;
     padding: 10px;
+    &.active{
+      background-color: RGB(227,227,229)!important;
+    }
     &:nth-of-type(odd) {
       border-right: 1px solid #e1e1e2;
     }

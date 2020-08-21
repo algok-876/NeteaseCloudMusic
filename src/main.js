@@ -20,7 +20,8 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Table,
-  Drawer
+  Drawer,
+  LoadingBar
 } from 'view-design';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueLazyLoad from 'vue-lazyload';
@@ -63,6 +64,11 @@ Vue.prototype.$Modal = Modal;
 Vue.prototype.$Notice.config({
   duration: 2.5,
   top: 60
+});
+Vue.prototype.$Loading = LoadingBar;
+Vue.prototype.$Loading.config({
+  color: '#fcd217',
+  height: 4
 });
 
 // 注册全局组件

@@ -25,7 +25,7 @@
             <Icon :custom="likelist.indexOf(song.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(song.id) >= 0}"/>
           </span>
           <span>
-            <Icon type="ios-cloud-download-outline" size="16"/>
+            <Icon custom="iconfont icon-xiazai1" size="16" @click="download(song.name, song.songurl)"/>
           </span>
         </td>
         <td :title="song.name" :i="index">
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import downloadMp3 from '../func/download';
 import { mapState } from 'vuex';
 export default {
   props: ['songs', 'type'],
@@ -91,6 +92,14 @@ export default {
         this.$Message.warning('出错啦，请重试！');
       }
       this.$store.dispatch('user/getLikelist', this.$store.state.login.loginInfo.userData.profile.userId);
+    },
+    async download (name, url) {
+      await downloadMp3(process => {
+        this.$Loading.update(process);
+        if (process === 100) {
+          this.$Loading.finish();
+        }
+      }, { name, url });
     },
     delegation (e) {
       const index = Number(e.target.getAttribute('i') || e.target.parentElement.getAttribute('i'));
