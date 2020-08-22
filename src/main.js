@@ -62,7 +62,7 @@ Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;
 Vue.prototype.$Notice.config({
-  duration: 2.5,
+  duration: 6,
   top: 60
 });
 Vue.prototype.$Loading = LoadingBar;

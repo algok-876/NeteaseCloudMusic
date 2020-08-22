@@ -1,5 +1,8 @@
-
 # 云音乐
+
+## 项目概述
+
+本项目是模仿网易云客户端而成的，仅作学习交流用途。本项目中不包含任何的支付接口，如侵权请Issues
 
 ## 本地预览
 
@@ -30,3 +33,8 @@ npm run lint
 - **用户歌单**
   - **用户添加新歌单**
   - **用户删除歌单**
+
+## 致谢
+
+感谢由Binaryify提供的这么好的接口项目NeteaseCloudMusicApi，Github地址:[https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+

@@ -101,9 +101,13 @@ export default {
   mounted () {
   },
   methods: {
+    clearTitleTimer () {
+      clearInterval(this.titleTimer);
+      this.titleTimer = null;
+    },
     // 开始播放
     startPlay () {
-      document.title = '正在播放：' + this.curAudioInfo.name;
+      document.title = `正在播放：《${this.curAudioInfo.name}》`;
       this.titleTimer = setInterval(() => {
         document.title = document.title.slice(1, document.title.length) + document.title.slice(0, 1);
       }, 1000);
@@ -115,7 +119,7 @@ export default {
     // 暂停播放
     pausePlay () {
       document.title = '稻田音乐';
-      this.titleTimer = clearInterval(this.titleTimer);
+      this.clearTitleTimer();
       this.timer = clearInterval(this.timer);
       this.$refs.audio.pause();
       this.playing = false;
@@ -131,7 +135,7 @@ export default {
     },
     // 加载元数据时
     onLoadedmetadata (res) {
-      this.titleTimer = clearInterval(this.titleTimer);
+      this.clearTitleTimer();
       this.curTime = res.target.currentTime;
       this.totalTime = res.target.duration;
       this.startPlay();
@@ -144,7 +148,7 @@ export default {
     // 播放结束
     onEnded () {
       document.title = '稻田音乐';
-      this.titleTimer = clearInterval(this.titleTimer);
+      this.clearTitleTimer();
       // 根据播放模式自动播放下一首歌曲
       this.nextSong();
     },
@@ -157,6 +161,7 @@ export default {
     pauseOrPlay () {
       if (!this.$refs.audio.currentSrc) return;
       if (this.playing) {
+        this.clearTitleTimer();
         this.playing = false;
         setTimeout(() => {
           this.pausePlay();
@@ -198,7 +203,7 @@ export default {
       this.$refs.audio.currentTime = (this.sliderWidth / 100) * this.$refs.audio.duration;
     },
     onDropEnd (e) {
-      this.startPlay();
+      this.$refs.audio.play();
       window.removeEventListener('mousemove', this.onDropIng);
       window.removeEventListener('mouseup', this.onDropEnd);
     },
@@ -215,6 +220,7 @@ export default {
     },
     // 上一首
     lastSong () {
+      this.clearTitleTimer();
       let lastSongOrder = '';
       if (this.curPlayMode === 0) {
         lastSongOrder = this.curAudioInfo.order - 1;
@@ -236,6 +242,8 @@ export default {
       }
     },
     nextSong () {
+      // 清除标题滚动定时器
+      this.clearTitleTimer();
       let nextSongOrder = '';
       if (this.curPlayMode === 0 || this.curPlayMode === 1) {
         nextSongOrder = this.curAudioInfo.order + 1;

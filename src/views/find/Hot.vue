@@ -10,7 +10,7 @@
       <div class="tags" slot="content">
         <vue-scroll>
           <div class="wrapper">
-            <div class="allCat"  @click="switchCat('全部')">
+            <div class="allCat"  @click="jumpCat('全部')">
               <div class="tagSelect" v-if="curCat==='全部'" >
                 <Icon type="md-checkmark" size="15"/>
               </div>
@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="subcat">
-                <span class="tag" v-for="(value, index) in item.sub" :key="index" @click="switchCat(value.name)">
+                <span class="tag" v-for="(value, index) in item.sub" :key="index" @click="jumpCat(value.name)">
                   <div class="tagSelect" v-if="curCat === value.name">
                     <Icon type="md-checkmark" size="15"/>
                   </div>
@@ -46,7 +46,7 @@
         <Icon type="ios-loading" size=18 class="load"></Icon>
       </Spin>
       <ul>
-        <li v-for="(tag, index) in hotCatList" :key="index" @click="switchCat(tag.playlistTag.name)">{{tag.playlistTag.name}}</li>
+        <li v-for="(tag, index) in hotCatList" :key="index" @click="jumpCat(tag.playlistTag.name)">{{tag.playlistTag.name}}</li>
       </ul>
     </div>
     <div class="playlists">
@@ -79,7 +79,7 @@
       </ul>
       <!-- 分页 -->
       <div class="page-wrapper">
-        <Page :total="playListTotal" @on-change="pageChange" v-show="!catLoading" :current.sync="currentPage"/>
+        <Page :total="playListTotal" @on-change="pageJump" v-show="!catLoading" :current.sync="currentPage"/>
       </div>
     </div>
   </div>
@@ -120,7 +120,7 @@ export default {
     async getBaseData () {
       const cat = this.$remoteInterface.getCatList();
       const hotCat = this.$remoteInterface.getHotCat();
-      const firstPlayList = this.$remoteInterface.getPlaylist(1, '', 99);
+      const firstPlayList = this.$remoteInterface.getPlaylist(1, this.$route.query.cat, 99);
       this.catLoading = true;
       this.hotCatLoading = true;
       const res = await Promise.all([cat, hotCat, firstPlayList]);
@@ -149,12 +149,13 @@ export default {
       this.hotCatLoading = false;
     },
     // 切换歌单分类
-    async switchCat (cat) {
+    async switchCat () {
       this.playList = [];
       this.catLoading = true;
       this.catBtnLoading = true;
       this.catVisible = false;
-      const res = await this.$remoteInterface.getPlaylist(1, cat, 99);
+      const cat = this.$route.query.cat;
+      const res = await this.$remoteInterface.getPlaylist(0, cat, 99);
       if (res.code === 200) {
         this.curCat = res.cat;
         this.playList = res.playlists;
@@ -164,15 +165,30 @@ export default {
       this.catLoading = false;
       this.catBtnLoading = false;
     },
+    pageJump (offset) {
+      this.$router.push(`/find/playlist/hot?cat=${this.curCat}&p=${offset}`);
+    },
     // 当前页发生改变
     async pageChange (offset) {
+      offset -= 1;
       this.catLoading = true;
-      const limit = offset === 1 ? 99 : 100;
+      const limit = offset === 0 ? 99 : 100;
       const res = await this.$remoteInterface.getPlaylist(offset, this.curCat, limit);
       if (res.code === 200) {
         this.playList = res.playlists;
       }
       this.catLoading = false;
+    },
+    jumpCat (cat) {
+      this.$router.push(`/find/playlist/hot?cat=${cat}`);
+    }
+  },
+  watch: {
+    '$route.query.cat': function () {
+      this.switchCat();
+    },
+    '$route.query.p': function () {
+      this.pageChange(this.$route.query.p);
     }
   }
 };

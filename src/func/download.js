@@ -9,7 +9,7 @@ export default async function downloadMp3 (progress, ...files) {
     if (file.url) {
       const task = axios.get(file.url, {
         responseType: 'blob',
-        songname: file.name,
+        songname: file.downloadname,
         // 监听原生的进度条事件
         onDownloadProgress: function (progressEvent) {
           // 进度为

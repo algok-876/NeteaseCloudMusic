@@ -41,7 +41,7 @@
           标签：
           <Breadcrumb>
             <BreadcrumbItem
-              to="/"
+              :to="'/find/playlist/hot?cat=' + value"
               v-for="(value, index) in playlistData.tags"
               :key="index"
             >{{value}}</BreadcrumbItem>
@@ -234,12 +234,17 @@ export default {
         cancelText: '不，再想想',
         onOk: async () => {
           this.isDownloadAll = true;
-          const downlaodList = this.songlist.map(value => ({
-            name: value.name,
-            url: value.songurl
-          }));
+          const downlaodList = this.songlist.map(value => {
+            const arNameList = value.ar.map(song => {
+              return song.name;
+            });
+            const downloadname = value.name + '-' + arNameList.join('/');
+            return {
+              downloadname,
+              url: value.songurl
+            };
+          });
           await downloadMp3(percent => {
-            console.log(percent);
             that.$Loading.update(percent);
             if (percent === 100) {
               that.$Loading.finish();

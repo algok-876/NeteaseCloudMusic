@@ -20,8 +20,8 @@
               <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
             </div>
           </div>
-          <div class="img-box" v-lazy:background-image="item.picUrl + '?param=40y40'">
-            <Icon custom="iconfont icon-icon-test" size="28" />
+          <div class="img-box" v-lazy:background-image="item.picUrl + '?param=40y40'" @click="playMusic(item)">
+            <Icon custom="iconfont icon-icon-test" size="28"/>
           </div>
           <div class="songmsg">
             <p class="name">{{item.name}}</p>

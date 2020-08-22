@@ -25,7 +25,7 @@
             <Icon :custom="likelist.indexOf(song.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(song.id) >= 0}"/>
           </span>
           <span>
-            <Icon custom="iconfont icon-xiazai1" size="16" @click="download(song.name, song.songurl)"/>
+            <Icon custom="iconfont icon-xiazai1" size="16" @click="download(song, song.songurl)"/>
           </span>
         </td>
         <td :title="song.name" :i="index">
@@ -93,16 +93,27 @@ export default {
       }
       this.$store.dispatch('user/getLikelist', this.$store.state.login.loginInfo.userData.profile.userId);
     },
-    async download (name, url) {
+    async download (songinfo, url) {
+      const arNameList = songinfo.ar.map(song => {
+        return song.name;
+      });
+      const downloadname = songinfo.name + '-' + arNameList.join('/');
       await downloadMp3(process => {
         this.$Loading.update(process);
         if (process === 100) {
           this.$Loading.finish();
         }
-      }, { name, url });
+      }, { downloadname, url });
     },
     delegation (e) {
       const index = Number(e.target.getAttribute('i') || e.target.parentElement.getAttribute('i'));
+      if (!this.songs[index].songurl) {
+        this.$Notice.warning({
+          title: '暂无音源',
+          desc: `暂无歌曲《${this.songs[index].name}》的音源，无法播放`
+        });
+        return;
+      };
       this.$store.commit('player/setAudioData', this.songs[index]);
       // 将此歌单的所有歌曲做为播放列表
       this.$store.commit('player/setPlaylist', this.songs);

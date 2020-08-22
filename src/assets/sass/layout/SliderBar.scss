@@ -9,22 +9,22 @@
   .wrapper{
     width: 200px;
   }
-  // 添加歌单表单
-  .add-play-list{
-    padding: 20px 15px;
-    .title{
-      font-weight: 400;
-      font-size: 20px;
-      letter-spacing: 2px;
-    }
-    .form{
-      margin: 25px 0;
-      display: flex;
-      flex-direction: column;
-    }
-    .footer{
-      display: flex;
-      justify-content: center;
-    }
+}
+// 添加歌单表单
+.add-play-list{
+  padding: 20px 15px;
+  .title{
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .form{
+    margin: 25px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .footer{
+    display: flex;
+    justify-content: center;
   }
 }
