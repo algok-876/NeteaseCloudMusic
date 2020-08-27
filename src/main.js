@@ -169,6 +169,14 @@ Vue.filter('duration', (value, mOrms = true) => {
   return minutes + ':' + seconds;
 });
 
+Vue.filter('parseArists', arr => {
+  const name = [];
+  arr.forEach(value => {
+    name.push(value.name);
+  });
+  return name.join(' / ');
+});
+
 // 懒加载指令
 Vue.directive('lazyload', lazyImg);
 

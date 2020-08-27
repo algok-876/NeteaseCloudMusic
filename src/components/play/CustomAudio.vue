@@ -82,14 +82,6 @@ export default {
       drawerVisible: false,
       timer: null,
       titleTimer: null,
-      // 播放模式图标
-      icons: [
-        'iconfont icon-xunhuan-wangyiicon',
-        'iconfont icon-loop',
-        'iconfont icon-suijibofang-wangyiicon'
-      ],
-      // 当前播放模式 0表示顺序，1表示单曲循环，2表示随机，3表示心动模式
-      curPlayMode: 0,
       // 模式提示
       modeTipVisible: false,
       modeTipLeft: '',
@@ -150,7 +142,12 @@ export default {
       document.title = '稻田音乐';
       this.clearTitleTimer();
       // 根据播放模式自动播放下一首歌曲
-      this.nextSong();
+      if (this.curPlayMode === 1) {
+        this.clearTitleTimer();
+        this.startPlay();
+      } else {
+        this.nextSong();
+      }
     },
     // 加载成功时
     onLoad () {
@@ -208,21 +205,28 @@ export default {
       window.removeEventListener('mouseup', this.onDropEnd);
     },
     // 切换播放模式
-    switchMode (e) {
+    async switchMode (e) {
       this.modeTipVisible = true;
-      console.log(this.$refs.modetip.offsetWidth);
       this.modeTipLeft = e.target.getBoundingClientRect().left - 48;
-      this.curPlayMode++;
-      if (this.curPlayMode > 2) {
-        this.curPlayMode = 0;
+      let mode = this.curPlayMode + 1;
+      if (mode >= this.icons.length) {
+        mode = 0;
       }
+      let heartList = [];
+      if (mode === 3) {
+        heartList = await this.$remoteInterface.returnHeartBeatList(this.curAudioInfo, this.curAudioInfo.id, this.curAudioInfo.pid);
+      } else {
+        // 恢复播放列表
+        this.$store.commit('player/restorePlayList');
+      }
+      this.$store.commit('player/setPlayMode', { mode, heartbeatList: heartList });
       this.debounceFunc();
     },
     // 上一首
     lastSong () {
       this.clearTitleTimer();
       let lastSongOrder = '';
-      if (this.curPlayMode === 0) {
+      if (this.curPlayMode === 0 || this.curPlayMode === 3) {
         lastSongOrder = this.curAudioInfo.order - 1;
         if (lastSongOrder < 0) {
           lastSongOrder = this.playlist.length - 1;
@@ -245,8 +249,9 @@ export default {
       // 清除标题滚动定时器
       this.clearTitleTimer();
       let nextSongOrder = '';
-      if (this.curPlayMode === 0 || this.curPlayMode === 1) {
+      if (this.curPlayMode === 0 || this.curPlayMode === 1 || this.curPlayMode === 3) {
         nextSongOrder = this.curAudioInfo.order + 1;
+        console.log(nextSongOrder);
         if (nextSongOrder > this.playlist.length - 1) {
           nextSongOrder = 0;
         }
@@ -266,7 +271,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('player', ['curAudioInfo', 'playlist']),
+    ...mapState('player', ['curAudioInfo', 'playlist', 'curPlayMode']),
+    ...mapState('login', ['loginInfo']),
     modeTip () {
       let modetext = '';
       switch (this.curPlayMode) {
@@ -279,13 +285,35 @@ export default {
         case 2:
           modetext = '随机播放';
           break;
+        case 3:
+          modetext = '心动模式';
+          break;
       }
       return modetext;
+    },
+    // 播放模式图标
+    icons () {
+      const defaultIcons = [
+        'iconfont icon-xunhuan-wangyiicon',
+        'iconfont icon-loop',
+        'iconfont icon-suijibofang-wangyiicon'
+      ];
+      if (this.loginInfo.status && this.curAudioInfo.id && this.curAudioInfo.pid) {
+        defaultIcons.push('iconfont icon-xindong');
+      }
+      return defaultIcons;
     }
   },
   components: {
     Volume,
     playDrawer
+  },
+  watch: {
+    curPlayMode (newValue, oldValue) {
+      if (oldValue === 3) {
+        this.$store.commit('player/setAudioData', this.playlist[0]);
+      }
+    }
   }
 };
 </script>

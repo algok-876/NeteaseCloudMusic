@@ -1,59 +1,54 @@
 <template>
-  <table class="song-table" cellspacing="0">
-    <thead>
-      <tr>
-        <td></td>
-        <td>操作</td>
-        <td>音乐标题</td>
-        <td>歌手</td>
-        <td>专辑</td>
-        <td>时长</td>
-      </tr>
-    </thead>
-    <tbody @dblclick="delegation">
-      <tr v-for="(song, index) in songs" :key="index" :class="{active: index === activeTr}" @click="activeTr = index">
-        <td style="max-width:50px;text-align:center" :i="index">
-          <span v-if="song.id!==curAudioInfo.id">
-            {{index + 1 >= 10 ? index + 1: '0'+ (index + 1)}}
-          </span>
-          <div v-else>
-            <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
-          </div>
-        </td>
-        <td style="max-width:80px" :i="index">
-          <span @click="likeSong(song.id, index)">
-            <Icon :custom="likelist.indexOf(song.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(song.id) >= 0}"/>
-          </span>
-          <span>
-            <Icon custom="iconfont icon-xiazai1" size="16" @click="download(song, song.songurl)"/>
-          </span>
-        </td>
-        <td :title="song.name" :i="index">
-          <span>{{song.name}}</span>
-          <Icon v-if="song.mv" custom="iconfont icon-mv" style="display:inline-block;margin-left:10px;color:#cd2929"></Icon>
-        </td>
-        <td style="max-width:400px" class="songers" :i="index">
-          <span v-for="(ar, index) in song.ar" :key="index">{{ar.name}}</span>
-        </td>
-        <td style="max-width:230px" :title="song.al.name" :i="index">
-          <span>{{song.al.name}}</span>
-        </td>
-        <td style="max-width:100px" :i="index">
-          <span>{{song.dt | duration(false)}}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <musicTable :theadItem="thead" :tbodyData="songs" @on-dblclickSong="dblsongs">
+    <template v-slot:order="row">
+      <span v-if="row.rowData.id!==curAudioInfo.id">
+        {{row.rowData.order + 1 >= 10 ? row.rowData.order + 1: '0'+ (row.rowData.order + 1)}}
+      </span>
+      <div v-else>
+        <Icon :custom="curAudioInfo.playing?'iconfont icon-laba': 'iconfont icon-wushengyinkuai'" size="18" style="color:#c62f2f"/>
+      </div>
+    </template>
+    <template v-slot:op="row">
+      <span @click="likeSong(row.rowData.id, row.rowData.order)">
+        <Icon :custom="likelist.indexOf(row.rowData.id) >= 0 ? 'iconfont icon-xihuan-wangyiicon' : 'iconfont icon-xihuan-kongpt'" :class="{like: likelist.indexOf(row.rowData.id) >= 0}"/>
+      </span>
+      <span>
+        <Icon custom="iconfont icon-xiazai1" size="16" @click="download(row.rowData, row.rowData.songurl)"/>
+      </span>
+    </template>
+    <template v-slot:name="row">
+      <span>{{row.rowData.name}}</span>
+      <Icon v-if="row.rowData.mv" custom="iconfont icon-mv" style="display:inline-block;margin-left:10px;color:#cd2929"></Icon>
+    </template>
+    <template v-slot:ar="row">
+      {{row.rowData.ar | parseArists}}
+    </template>
+    <template v-slot:al="row">
+      {{row.rowData.al.name}}
+    </template>
+    <template v-slot:dt="row">
+      {{row.rowData.dt | duration(false)}}
+    </template>
+  </musicTable>
 </template>
 
 <script>
 import downloadMp3 from '../func/download';
+import musicTable from '../components/table/musicTable';
 import { mapState } from 'vuex';
 export default {
-  props: ['songs', 'type'],
+  props: ['songs'],
   data () {
     return {
-      activeTr: ''
+      activeTr: '',
+      thead: [
+        { label: '', field: 'order' },
+        { label: '操作', field: 'op' },
+        { label: '音乐标题', field: 'name' },
+        { label: '歌手', field: 'ar' },
+        { label: '专辑', field: 'al' },
+        { label: '时长', field: 'dt' }
+      ]
     };
   },
   methods: {
@@ -105,8 +100,7 @@ export default {
         }
       }, { downloadname, url });
     },
-    delegation (e) {
-      const index = Number(e.target.getAttribute('i') || e.target.parentElement.getAttribute('i'));
+    async dblsongs (index) {
       if (!this.songs[index].songurl) {
         this.$Notice.warning({
           title: '暂无音源',
@@ -115,14 +109,21 @@ export default {
         return;
       };
       this.$store.commit('player/setAudioData', this.songs[index]);
-      // 将此歌单的所有歌曲做为播放列表
+      // 如果当前处于心动播放模式，则要请求心动列表然后作为播放列表，否则直接将该歌单的作为播放列表
       this.$store.commit('player/setPlaylist', this.songs);
-      console.log(e.target.offsetTop);
+      if (this.curPlayMode === 3) {
+        const heartbeatList = await this.$remoteInterface.returnHeartBeatList(this.songs[index], this.songs[index].id, this.$route.query.id);
+        this.$store.commit('player/setPlayMode', { mode: this.curPlayMode, heartbeatList });
+      }
+      // console.log(e.target.offsetTop);
     }
   },
   computed: {
     ...mapState('user', ['likelist']),
-    ...mapState('player', ['curAudioInfo'])
+    ...mapState('player', ['curAudioInfo', 'curPlayMode'])
+  },
+  components: {
+    musicTable
   }
 };
 </script>

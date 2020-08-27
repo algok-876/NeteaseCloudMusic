@@ -1,3 +1,4 @@
+// import { returnHeartBeatList } from '../service/users';
 export default {
   namespaced: true,
   state: {
@@ -6,15 +7,19 @@ export default {
       playing: false
     },
     // 播放列表
-    playlist: []
+    playlist: [],
+    // 当前播放模式 0表示顺序，1表示单曲循环，2表示随机，3表示心动模式
+    curPlayMode: 0,
+    // 备份之前的播放列表
+    copyBeforePlayList: []
   },
   mutations: {
     // 设置当前歌曲播放信息
     setAudioData (state, payload) {
-      // state.curAudioInfo.songurl = payload.songurl;
-      // state.curAudioInfo.id = payload.id;
-      // state.curAudioInfo.name = payload.name;
-      // state.curAudioInfo.order = payload.order;
+      // 如果是心动模式，不管该歌曲之前的序号是多少，直接设置为第一个
+      if (state.curPlayMode === 3 && payload.source === 'playlist') {
+        payload.order = 0;
+      }
       state.curAudioInfo = { ...state.curAudioInfo, ...payload };
     },
     // 设置播放状态
@@ -24,10 +29,26 @@ export default {
     // 设置播放列表
     setPlaylist (state, payload) {
       state.playlist = payload;
+      state.copyBeforePlayList = [];
     },
     // 更新播放列表
     updatePlaylist (state, payload) {
       state.playlist = state.playlist.splice(payload.start, payload.delete, payload.update);
+    },
+    // 设置播放模式
+    setPlayMode (state, { mode, heartbeatList }) {
+      state.curPlayMode = mode;
+      if (mode === 3) {
+        state.curAudioInfo.order = 0;
+        state.copyBeforePlayList = state.playlist;
+        state.playlist = heartbeatList || [];
+      }
+    },
+    // 先判断备份列表是否有东西，如果有就将备份列表还原到播放列表中，一般用于从心动模式切换回其他模式
+    restorePlayList (state) {
+      if (state.copyBeforePlayList.length) {
+        state.playlist = state.copyBeforePlayList;
+      }
     }
   },
   actions: {

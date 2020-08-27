@@ -74,29 +74,31 @@
       <div class="tab-content">
         <!-- 歌曲列表 -->
         <div class="songlist" v-show="curtab===0">
-          <Songlist :songs="songlist" :type="userLikePlaylistId.toString()===$route.query.id ? 'like':''" @refresh="refreshPlaylist"></Songlist>
+          <Songlist :songs="songlist" @refresh="refreshPlaylist"></Songlist>
         </div>
         <!-- 评论 -->
         <div class="comment" v-show="curtab===1">
           <Comment :comments="comments" @page-change="pageChange" :loading="commentLoading"></Comment>
         </div>
         <!-- 收藏者 -->
-        <div class="comment" v-show="curtab===2">
-          <Spin size="large" v-if="subLoading">
-            <Icon type="ios-loading" size="18" class="load"></Icon>载入中...
-          </Spin>
-          <div class="wrapper" v-show="!subLoading">
-            <ul class="subscribers">
-              <li v-for="sub in subscribes" :key="sub.userId">
-                <Avatar :src="sub.avatarUrl" size="60" />
-                <span v-text="sub.nickname"></span>
-              </li>
-            </ul>
-            <!-- 分页 -->
-            <div class="page-wrapper">
-              <Page :total="playlistData.subscribedCount" @on-change="subPageChange" :page-size="70" size="small" />
+        <div class="subscr" v-show="curtab===2">
+          <template v-if="subscribes.length">
+            <Spin size="large" v-if="subLoading">
+              <Icon type="ios-loading" size="18" class="load"></Icon>载入中...
+            </Spin>
+            <div class="wrapper" v-show="!subLoading">
+              <ul class="subscribers">
+                <li v-for="sub in subscribes" :key="sub.userId">
+                  <Avatar :src="sub.avatarUrl" size="60" />
+                  <span v-text="sub.nickname"></span>
+                </li>
+              </ul>
+              <!-- 分页 -->
+              <div class="page-wrapper">
+                <Page :total="playlistData.subscribedCount" @on-change="subPageChange" :page-size="70" size="small" />
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -177,11 +179,14 @@ export default {
         return {
           order: index,
           id: item.id,
+          op: '',
           name: item.name,
           ar: item.ar,
           al: item.al,
           mv: item.mv,
           dt: item.dt,
+          pid: this.$route.query.id,
+          source: 'playlist',
           songurl: songUrls.data.find((urlItem) => {
             return urlItem.id === item.id;
           }).url

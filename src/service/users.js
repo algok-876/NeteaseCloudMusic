@@ -55,6 +55,35 @@ async function getSongUrl (id) {
   return res;
 }
 
+// 返回心动播放列表
+async function returnHeartBeatList (cursong, id, pid) {
+  const res = await neteaseApi.post(addTimeStamp('/playmode/intelligence/list'), {
+    id,
+    pid
+  });
+  // 获取所有歌曲的id组成字符串
+  const ids = res.data.map(song => {
+    return song.id;
+  }).join(',');
+  const songUrls = await getSongUrl(ids);
+  const heartbeat = res.data.map((song, index) => {
+    return {
+      al: song.songInfo.al,
+      ar: song.songInfo.ar,
+      dt: song.songInfo.dt,
+      id: song.id,
+      mv: song.songInfo.mv,
+      name: song.songInfo.name,
+      order: index + 1,
+      songurl: songUrls.data.find((urlItem) => {
+        return urlItem.id === song.id;
+      }).url
+    };
+  });
+  heartbeat.splice(0, 0, { ...cursong, order: 0 });
+  return heartbeat;
+}
+
 // 获取音乐blob对象
 async function getBlob (url) {
   const blob = await axios.get(url, {
@@ -105,5 +134,6 @@ export default {
   getLikelist,
   likeSong,
   subscribe,
-  getBlob
+  getBlob,
+  returnHeartBeatList
 };

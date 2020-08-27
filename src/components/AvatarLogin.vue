@@ -12,8 +12,8 @@
         <Avatar icon="ios-person" :src="userLoginInfo.avatarUrl"/>
         <span class="loginMessage">
           {{userLoginInfo.loginMessage}}
-          <Icon type="md-arrow-dropdown" size="20" />
         </span>
+        <Icon type="md-arrow-dropdown" size="20" />
       </div>
       <template v-if="visible">
       <div class="userPanel" slot="content">
@@ -416,14 +416,21 @@ export default {
     align-items: center;
     cursor: pointer;
     margin-top: 5px;
+    color: rgb(229, 196, 174);
     &:hover {
-      .loginMessage {
+      .loginMessage, i{
         color: #ffffff;
       }
     }
+    i{
+      transition: all .3s;
+    }
     .loginMessage {
-      display: flex;
-      align-items: center;
+      transition: all .3s;
+      width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       margin-left: 10px;
       color: rgb(229, 196, 174);
     }
