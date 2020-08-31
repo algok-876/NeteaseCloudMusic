@@ -65,6 +65,7 @@ export default {
   async mounted () {
     await this.setSongList();
     this.integrateSongList();
+    console.log(this.recSongList);
   },
   methods: {
     async setSongList () {
@@ -72,7 +73,7 @@ export default {
       this.loading = true;
       const res = await this.$remoteInterface.getSongList();
       if (res.code === 200) {
-        this.recSongList = res.recommend.slice(5, 15);
+        this.recSongList = res.recommend.slice(0, 10);
       }
       const NewSongs = this.$remoteInterface.getNewSongs();
       const Djprogram = this.$remoteInterface.getDjprogram();

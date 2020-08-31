@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/': {
-        target: 'http://localhost:4000',
+        target: 'https://api.geekde.club/',
         changeOrigin: true,
         pathRewrite: { '^/': '' }
       }

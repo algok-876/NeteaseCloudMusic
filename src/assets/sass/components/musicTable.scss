@@ -1,5 +1,6 @@
 .music-table{
   width: 100%;
+  position: relative;
   tr{
     height: 30px;
     &.active{
@@ -59,4 +60,31 @@
       }
     }
   }
+  .line-wrap{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 666;
+    background-color: transparent;
+    .col-line{
+      width: 1px;
+      background-color: #000;
+      position: absolute;
+      height: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+  }
+}
+.msk{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 444;
+  background-color: transparent;
+  // visibility: hidden;
 }

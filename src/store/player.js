@@ -1,4 +1,4 @@
-// import { returnHeartBeatList } from '../service/users';
+import playlist from '../service/playlist';
 export default {
   namespaced: true,
   state: {
@@ -11,7 +11,9 @@ export default {
     // 当前播放模式 0表示顺序，1表示单曲循环，2表示随机，3表示心动模式
     curPlayMode: 0,
     // 备份之前的播放列表
-    copyBeforePlayList: []
+    copyBeforePlayList: [],
+    // 用户的历史播放记录
+    historyList: []
   },
   mutations: {
     // 设置当前歌曲播放信息
@@ -30,6 +32,10 @@ export default {
     setPlaylist (state, payload) {
       state.playlist = payload;
       state.copyBeforePlayList = [];
+    },
+    // 设置历史播放列表
+    setHistoryList (state, payload) {
+      state.historyList = payload;
     },
     // 更新播放列表
     updatePlaylist (state, payload) {
@@ -52,5 +58,16 @@ export default {
     }
   },
   actions: {
+    async curAndhistory (context) {
+      let historyList = await playlist.getPlayHistory(this.state.user.userDetail.profile.userId);
+      historyList = historyList.weekData.map(his => {
+        return {
+          name: his.song.name,
+          ar: his.song.ar,
+          dt: his.song.dt
+        };
+      });
+      context.commit('setHistoryList', historyList);
+    }
   }
 };

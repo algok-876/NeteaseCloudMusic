@@ -127,6 +127,7 @@ export default {
     },
     // 加载元数据时
     onLoadedmetadata (res) {
+      this.$store.dispatch('player/curAndhistory');
       this.clearTitleTimer();
       this.curTime = res.target.currentTime;
       this.totalTime = res.target.duration;

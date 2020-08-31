@@ -21,7 +21,9 @@ import {
   BreadcrumbItem,
   Table,
   Drawer,
-  LoadingBar
+  LoadingBar,
+  Radio,
+  RadioGroup
 } from 'view-design';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueLazyLoad from 'vue-lazyload';
@@ -88,6 +90,8 @@ Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('BreadcrumbItem', BreadcrumbItem);
 Vue.component('Table', Table);
 Vue.component('Drawer', Drawer);
+Vue.component('Radio', Radio);
+Vue.component('RadioGroup', RadioGroup);
 
 Vue.config.productionTip = false;
 

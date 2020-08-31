@@ -1,0 +1,74 @@
+.toplist-wrap{
+  .offical-toplist{
+    .tl-title{
+      font-size: 18px;
+      padding: 10px 0;
+      margin: 10px 0;
+      border-bottom: 1px solid #e1e1e2;
+    }
+    .list{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .item{
+        border: 1px solid #e1e1e2;
+        width: 32%;
+        margin-bottom: 30px;
+        .header{
+          height: 120px;
+          background-repeat: no-repeat;
+          background-size: 100%, 100%;
+          background-position: 0%;
+        }
+        ul{
+          list-style: none;
+          li{
+            padding: 0 15px;
+            display: flex;
+            color: RGB(125,102,102);
+            justify-content: space-between;
+            .right{
+              // flex: 1;
+              width: calc(100% - 150px);
+              display: flex;
+              .order{
+                font-size: 18px;
+                &.topthree{
+                  color: RGB(205,41,41);
+                }
+              }
+              .songname{
+                position: relative;
+                left: 10px;
+                color: #000000;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+            .left{
+              width: 100px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align-last: right;
+            }
+            line-height: 35px;
+            &.active{
+              background-color: #E3E3E5!important;
+            }
+            &:hover{
+              background-color: #EBECED!important;
+            }
+            &:nth-child(even){
+              background-color: #FAFAFA;
+            }
+            &:nth-child(odd){
+              background-color: #F5F5F7;
+            }
+          }
+        }
+      }
+    }
+  }
+}

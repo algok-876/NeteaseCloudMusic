@@ -36,9 +36,31 @@ async function getHotCat () {
   return res;
 }
 
+// 获取用户播放记录
+/**
+ * @param {*} uid 用户id
+ * @param {*} type 类型，1表示一周内，0表示所有历史记录
+ */
+async function getPlayHistory (uid, type = 1) {
+  const res = await neteaseApi.post(addTimeStamp('user/record'), {
+    uid,
+    type
+  });
+  return res;
+}
+/**
+ * 获取所有榜单
+ */
+async function getToplist () {
+  const res = await neteaseApi.get('/toplist');
+  return res;
+}
+
 export default {
   getCatList,
   getHotPlaylist,
   getPlaylist,
-  getHotCat
+  getHotCat,
+  getPlayHistory,
+  getToplist
 };
