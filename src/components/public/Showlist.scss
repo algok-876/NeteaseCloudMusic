@@ -1,0 +1,23 @@
+.showlist-wrapper{
+  .list-wrap{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .list-item{
+      width: calc(100% / 6 - 2%);
+      margin-bottom: 15px;
+      .content{
+        border: 1px solid #e1e1e2;
+        font-size: 0;
+        .img-box{
+          img{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

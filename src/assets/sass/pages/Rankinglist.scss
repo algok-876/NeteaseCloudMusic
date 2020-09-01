@@ -14,6 +14,15 @@
         border: 1px solid #e1e1e2;
         width: 32%;
         margin-bottom: 30px;
+        .footer{
+          line-height: 40px;
+          text-align: right;
+          background-color: #F5F5F7;
+          padding-right: 15px;
+          a{
+            color: RGB(125,102,102);
+          }
+        }
         .header{
           height: 120px;
           background-repeat: no-repeat;
@@ -21,7 +30,9 @@
           background-position: 0%;
         }
         ul{
+          position: relative;
           list-style: none;
+          min-height: 280px;
           li{
             padding: 0 15px;
             display: flex;

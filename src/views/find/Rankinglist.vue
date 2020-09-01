@@ -5,55 +5,62 @@
         官方榜
       </div>
       <div class="list">
-        <div class="item" v-for="(songs, index) in officialTlSongs" :key="officialToplist[index].id">
-          <div class="header" :style="{backgroundImage: `url(${officialToplist[index].coverImgUrl}?param=1080x1080)`}">
+        <div class="item" v-for="(toplist, index) in officialToplist" :key="toplist.id">
+          <div class="header" :style="{backgroundImage: `url(${toplist.coverImgUrl}?param=1080x1080)`}">
           </div>
           <ul>
-            <li v-for="(song, index) in songs.slice(0, 8)" :key="song.id" :class="{active: active === index}" @click="handleClickSong">
+            <li v-for="(song, order) in topListShowSongs[index]" :key="song.id" :class="{active: active === order}" @click="handleClickSong" @dblclick="playMusic(songs, order)">
               <div class="right">
-                <span class="order" :class="{topthree: index <= 2}">{{index + 1}}</span>
+                <span class="order" :class="{topthree: order <= 2}">{{order + 1}}</span>
                 <span class="songname">{{song.name}}</span>
               </div>
               <div class="left">
-                <span v-for="(item, index) in song.ar" :key="index">{{item.name}}</span>
+                <span v-for="(item, order) in song.ar" :key="order">{{item.name}}</span>
               </div>
             </li>
+            <!-- 当当前排行榜列表未加载出来时显示加载中 -->
+            <Spin size="large" v-if="!topListShowSongs[index]" fix><Icon type="ios-loading" size=18 class="load"></Icon>拼命加载中</Spin>
           </ul>
+          <div class="footer">
+            <router-link :to="'/pldetail?id='+officialToplist[index].id">查看更多></router-link>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="offical-toplist">
+      <div class="tl-title">
+        全球榜
+      </div>
+      <showlist :listData="entrieToplist"></showlist>
     </div>
   </div>
 </template>
 
 <script>
 import unitySongList from '../../utils/unitySongList';
+import mixinPlayMusic from '../../mixin/mixin_playMusic';
+import Showlist from '../../components/public/Showlist';
+import { mapState } from 'vuex';
 export default {
+  mixins: [mixinPlayMusic],
   data () {
     return {
-      // 全球排行榜
-      entrieToplist: [],
-      // 官方排行榜
-      officialToplist: [],
       // 每个官方排行榜的歌曲信息
       officialTlSongs: [],
       active: ''
     };
   },
   async mounted () {
-    await this.getToplist();
+    if (!this.isToplist) {
+      await this.getToplist();
+    }
     await this.getOfficialDetail();
   },
   methods: {
     async getToplist () {
       const res = await this.$remoteInterface.getToplist();
       if (res.code === 200) {
-        res.list.forEach(toplist => {
-          if (toplist.ToplistType) {
-            this.officialToplist.push(toplist);
-          } else {
-            this.entrieToplist.push(toplist);
-          }
-        });
+        this.$store.commit('find/setToplist', res.list);
       }
     },
     async getOfficialDetail () {
@@ -64,6 +71,7 @@ export default {
         });
         const res = await Promise.all(tasks);
         this.officialTlSongs = res;
+        console.log(res);
       }
     },
     handleClickSong (e) {
@@ -72,6 +80,20 @@ export default {
       });
       e.target.classList.add('active');
     }
+  },
+  computed: {
+    ...mapState('find', ['isToplist', 'entrieToplist', 'officialToplist']),
+    topListShowSongs () {
+      if (!this.officialTlSongs) {
+        return Array.of(this.officialToplist.length);
+      }
+      return this.officialTlSongs.map(list => {
+        return list.slice(0, 8);
+      });
+    }
+  },
+  components: {
+    Showlist
   }
 };
 </script>
