@@ -55,7 +55,7 @@
         载入中...
       </Spin>
       <ul class="list" v-if="!catLoading">
-        <li class="playlistitem" v-if="currentPage===1" :style="{width: `${100 / 5 - 1.3}%`}">
+        <li class="playlistitem" v-if="currentPage===1" :style="{width: `${100 / 5 - 1.3}%`}" @click="$router.push('/find/playlist/boutique')">
           <div class="img-box">
             <img src="../../assets/img/jp.jpg" alt="">
           </div>

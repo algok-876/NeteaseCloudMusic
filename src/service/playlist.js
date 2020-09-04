@@ -11,7 +11,7 @@ async function getCatList () {
 };
 
 // 获取精品歌单
-async function getHotPlaylist (before, cat = '', limit = 15) {
+async function getBoutiquePlaylist (before, cat = '', limit = 15) {
   const res = await neteaseApi.post(addTimeStamp('/top/playlist/highquality'), {
     before,
     limit,
@@ -58,7 +58,7 @@ async function getToplist () {
 
 export default {
   getCatList,
-  getHotPlaylist,
+  getBoutiquePlaylist,
   getPlaylist,
   getHotCat,
   getPlayHistory,
