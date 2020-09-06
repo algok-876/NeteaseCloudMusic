@@ -1,5 +1,5 @@
 <template>
-  <div class="toplist-wrap">
+  <div class="toplist-wrap content-wrapper">
     <div class="offical-toplist">
       <div class="tl-title">
         官方榜
@@ -9,7 +9,7 @@
           <div class="header" :style="{backgroundImage: `url(${toplist.coverImgUrl}?param=1080x1080)`}">
           </div>
           <ul>
-            <li v-for="(song, order) in topListShowSongs[index]" :key="song.id" :class="{active: active === order}" @click="handleClickSong" @dblclick="playMusic(songs, order)">
+            <li v-for="(song, order) in topListShowSongs[index]" :key="song.id" :class="{active: active === order}" @click="handleClickSong" @dblclick="playMusic(topListShowSongs[index], order)">
               <div class="right">
                 <span class="order" :class="{topthree: order <= 2}">{{order + 1}}</span>
                 <span class="songname">{{song.name}}</span>
@@ -27,11 +27,16 @@
         </div>
       </div>
     </div>
-    <div class="offical-toplist">
+    <div class="entries-toplist">
       <div class="tl-title">
         全球榜
       </div>
-      <showlist :listData="entrieToplist"></showlist>
+      <ul class="list">
+        <li class="list-item" v-for="(data, index) in entrieToplist" :key="index" @click="$router.push('/pldetail?id=' + data.id)">
+          <ThumbCover :src="data.coverImgUrl" :playCount="data.playCount"></ThumbCover>
+          <p>{{data.name}}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -39,7 +44,7 @@
 <script>
 import unitySongList from '../../utils/unitySongList';
 import mixinPlayMusic from '../../mixin/mixin_playMusic';
-import Showlist from '../../components/public/Showlist';
+import ThumbCover from '../../components/public/ThumbCover';
 import { mapState } from 'vuex';
 export default {
   mixins: [mixinPlayMusic],
@@ -93,7 +98,7 @@ export default {
     }
   },
   components: {
-    Showlist
+    ThumbCover
   }
 };
 </script>

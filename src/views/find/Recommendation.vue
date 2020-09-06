@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-wrapper">
     <Swiper :banners="banners"></Swiper>
     <recList
       title="推荐歌单"

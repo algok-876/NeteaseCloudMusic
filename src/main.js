@@ -23,7 +23,8 @@ import {
   Drawer,
   LoadingBar,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Scroll
 } from 'view-design';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueLazyLoad from 'vue-lazyload';
@@ -92,6 +93,7 @@ Vue.component('Table', Table);
 Vue.component('Drawer', Drawer);
 Vue.component('Radio', Radio);
 Vue.component('RadioGroup', RadioGroup);
+Vue.component('Scroll', Scroll);
 
 Vue.config.productionTip = false;
 
@@ -132,6 +134,8 @@ Vue.prototype.$vuescrollConfig = {
   name: 'vuescroll' // 在这里自定义组件名字，默认是vueScroll
 };
 
+// 事件中心
+Vue.prototype.$bus = new Vue();
 // 格式化日期
 Vue.filter('dateformat', (value, format) => {
   return moment(value).format(format);

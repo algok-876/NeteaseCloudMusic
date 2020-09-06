@@ -8,7 +8,7 @@
       <router-link to="/find/singer">歌手</router-link>
       <router-link to="/find/newmusic">最新音乐</router-link>
     </div>
-    <div class="content-wrapper">
+    <div>
       <router-view></router-view>
     </div>
   </div>

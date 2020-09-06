@@ -2,7 +2,7 @@
   <div>
     <div class="home">
       <slide-bar></slide-bar>
-      <vue-scroll>
+      <vue-scroll @handle-scroll="handleScroll">
         <div class="main-container">
           <router-view></router-view>
         </div>
@@ -20,6 +20,9 @@ export default {
   created () {
   },
   methods: {
+    handleScroll (vertical, horizontal, nativeEvent) {
+      this.$bus.$emit('scroll', { vertical, horizontal, nativeEvent });
+    }
   },
   components: {
     SlideBar,

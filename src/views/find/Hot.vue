@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-content">
+  <div class="playlist-content content-wrapper">
     <!-- 歌单分类弹出框 -->
     <Poptip placement="bottom-start" width="580" height="350" v-model="catVisible">
       <div class="catBtn">
