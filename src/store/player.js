@@ -13,7 +13,8 @@ export default {
     // 备份之前的播放列表
     copyBeforePlayList: [],
     // 用户的历史播放记录
-    historyList: []
+    historyList: [],
+    favoritePlaylist: false
   },
   mutations: {
     // 设置当前歌曲播放信息
@@ -55,6 +56,10 @@ export default {
       if (state.copyBeforePlayList.length) {
         state.playlist = state.copyBeforePlayList;
       }
+    },
+    // 设置当前歌单是否是用户喜欢的音乐
+    setFavPlaylist (state, payload) {
+      state.favoritePlaylist = payload;
     }
   },
   actions: {

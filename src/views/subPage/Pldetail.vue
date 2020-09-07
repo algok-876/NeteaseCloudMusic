@@ -1,14 +1,14 @@
 <template>
   <div class="playlist-detail-wrapper">
     <Spin size="large" fix v-if="loading"></Spin>
-    <div class="base-info">
+    <div class="base-info" v-if="playlistData">
       <div class="coverimg">
         <img v-lazy="playlistData.coverImgUrl" />
       </div>
       <div class="right-text">
         <p class="name">
           <span>歌单</span>
-          {{playlistData.name}}
+          {{playlistData.specialType === 5 ? '我喜欢的音乐' : playlistData.name}}
         </p>
         <p class="avatar-info">
           <Avatar :src="playlistData.creator.avatarUrl" />
@@ -141,6 +141,11 @@ export default {
       await this.getSongUrl();
       // 隐藏加载
       this.loading = false;
+      if (this.playlistData.specialType === 5) {
+        this.$store.commit('player/setFavPlaylist', true);
+      } else {
+        this.$store.commit('player/setFavPlaylist', false);
+      }
       await this.getComments();
       this.getSubscribers();
     },

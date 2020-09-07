@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     commentType () {
-      if (this.comments.hotComments) {
+      if (this.comments.hotComments.length) {
         return [
           { name: '精彩', comments: this.comments.hotComments },
           { name: '最新', comments: this.comments.comments }

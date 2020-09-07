@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="subcat">
-                <span class="tag" v-for="(value, index) in item.sub" :key="index" @click="jumpCat(value.name)">
+                <span class="cat-tag" v-for="(value, index) in item.sub" :key="index" @click="jumpCat(value.name)">
                   <div class="tagSelect" v-if="curCat === value.name">
                     <Icon type="md-checkmark" size="15"/>
                   </div>
@@ -279,7 +279,7 @@ export default {
       flex: 1;
       display: flex;
       flex-wrap: wrap;
-      .tag{
+      .cat-tag{
         display: inline-block;
         position: relative;
         border-right: 1px solid #e1e1e2;

@@ -272,7 +272,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('player', ['curAudioInfo', 'playlist', 'curPlayMode']),
+    ...mapState('player', ['curAudioInfo', 'playlist', 'curPlayMode', 'favoritePlaylist']),
     ...mapState('login', ['loginInfo']),
     modeTip () {
       let modetext = '';
@@ -299,7 +299,7 @@ export default {
         'iconfont icon-loop',
         'iconfont icon-suijibofang-wangyiicon'
       ];
-      if (this.loginInfo.status && this.curAudioInfo.id && this.curAudioInfo.pid) {
+      if (this.loginInfo.status && this.curAudioInfo.id && this.favoritePlaylist) {
         defaultIcons.push('iconfont icon-xindong');
       }
       return defaultIcons;

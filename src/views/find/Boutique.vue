@@ -4,7 +4,7 @@
       <div class="title">精品歌单</div>
     </div>
     <ul class="list">
-      <li class="item" v-for="playlist in boutiquePlaylist" :key="playlist.id">
+      <li class="item" v-for="(playlist, index) in boutiquePlaylist" :key="index">
         <div class="thumb">
           <ThumbCover
           :src="playlist.coverImgUrl"
@@ -24,6 +24,10 @@
         </div>
       </li>
     </ul>
+    <Spin size="large" v-if="loading">
+      <Icon type="ios-loading" size=18 class="load"></Icon>
+      载入中...
+    </Spin>
   </div>
 </template>
 
@@ -33,7 +37,11 @@ import ThumbCover from '../../components/public/ThumbCover';
 export default {
   data () {
     return {
-      boutiquePlaylist: []
+      boutiquePlaylist: [],
+      // 是否还有更多歌单数据
+      more: true,
+      // 歌单加载更多
+      loading: false
     };
   },
   mounted () {
@@ -50,8 +58,8 @@ export default {
       const res = await this.$remoteInterface.getBoutiquePlaylist(before, cat, limit);
       if (res.code === 200) {
         this.boutiquePlaylist.push(...res.playlists);
+        this.more = res.more;
       }
-      console.log(this.boutiquePlaylist);
     },
     handleReachBottom () {
       return new Promise(resolve => {
@@ -59,8 +67,13 @@ export default {
         resolve();
       });
     },
-    handleScroll (data) {
-      console.dir(data);
+    async handleScroll (data) {
+      if (!this.more) return;
+      if (document.querySelector('.find').offsetHeight - (window.innerHeight - 100) === data.vertical.scrollTop) {
+        this.loading = true;
+        await this.getBoutiquePlaylist();
+        this.loading = false;
+      }
     }
   },
   components: {

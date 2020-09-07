@@ -31,6 +31,8 @@ import VueLazyLoad from 'vue-lazyload';
 import vuescroll from 'vuescroll';
 import moment from 'moment';
 import lazyImg from './directive/imgLazy';
+// loading插件
+import loading from './plugin/loading/index';
 import 'vuescroll/dist/vuescroll.css';
 
 import 'swiper/css/swiper.css';
@@ -52,6 +54,7 @@ remoteInterface.checkLoginStatus().then(async res => {
     await store.dispatch('user/getLikelist', store.state.login.loginInfo.userData.profile.userId);
   }
 });
+Vue.use(loading);
 Vue.use(vuescroll);
 Vue.use(VueAwesomeSwiper);
 Vue.use(VueLazyLoad, {

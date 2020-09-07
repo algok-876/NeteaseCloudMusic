@@ -13,7 +13,7 @@
             <Icon type="ios-arrow-back" />
           </Button>
           <Button ghost>
-            <Icon type="ios-arrow-forward" @click="$router.go()"/>
+            <Icon type="ios-arrow-forward" @click="$router.go(-1)"/>
           </Button>
       </ButtonGroup>
       <!-- 搜索 -->

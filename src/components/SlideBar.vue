@@ -89,7 +89,7 @@ export default {
           return {
             href: '/pldetail?id=' + value.id,
             icon: index === 0 ? 'iconfont icon-xinaixin' : value.privacy === 10 ? 'iconfont icon-suo' : 'iconfont icon-yinfu_',
-            name: index === 0 ? '我喜欢的音乐' : value.name,
+            name: value.specialType === 5 ? '我喜欢的音乐' : value.name,
             size: index === 0 ? 14 : 16,
             id: value.id
           };

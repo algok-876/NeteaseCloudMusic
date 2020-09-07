@@ -1,5 +1,5 @@
 <template>
-  <div class="find">
+  <div class="find" ref="find">
     <div class="find-menu">
       <router-link to="/find/recommendation">个性推荐</router-link>
       <router-link to="/find/playlist">歌单</router-link>
