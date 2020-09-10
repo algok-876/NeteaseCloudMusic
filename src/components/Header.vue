@@ -18,9 +18,7 @@
       </ButtonGroup>
       <!-- 搜索 -->
       <div class="search">
-        <Input placeholder="搜索音乐,视频,歌词,电台" style="width: 250px" size="small">
-          <Icon type="ios-search" slot="suffix" />
-        </Input>
+        <search></search>
       </div>
     </div>
     <div class="right">
@@ -31,6 +29,7 @@
 
 <script>
 import AvatarLogin from './AvatarLogin';
+import search from '../components/search/search';
 export default {
   data () {
     return {
@@ -39,7 +38,8 @@ export default {
   },
   methods: {},
   components: {
-    AvatarLogin
+    AvatarLogin,
+    search
   }
 };
 </script>

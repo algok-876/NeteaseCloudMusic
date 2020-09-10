@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1621485",
+      "name": "垃圾桶",
+      "font_class": "lajitong",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "3278384",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "4275570",
+      "name": "专辑",
+      "font_class": "zhuanji",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "8605745",
+      "name": "用户",
+      "font_class": "yonghu1",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "11749333",
+      "name": "音符",
+      "font_class": "yinfu",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
       "icon_id": "2921575",
       "name": "下载",
       "font_class": "xiazai",

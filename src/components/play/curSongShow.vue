@@ -1,5 +1,5 @@
 <template>
-  <div class="cur-song-show" v-if="!curAudioInfo">
+  <div class="cur-song-show" v-if="curAudioInfo">
     <div class="al-pic">
       <img :src="curAudioInfo.al.picUrl+'?param=100y100'" alt />
     </div>

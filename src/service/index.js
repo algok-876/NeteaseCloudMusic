@@ -4,6 +4,7 @@ import find from './find';
 import playlist from './playlist';
 import users from './users';
 import comment from './comment';
+import search from './search';
 
 export default {
   ...login,
@@ -11,5 +12,6 @@ export default {
   ...find,
   ...playlist,
   ...users,
-  ...comment
+  ...comment,
+  ...search
 };

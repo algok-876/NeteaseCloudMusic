@@ -243,8 +243,6 @@ export default {
     async handlePop () {
       // 登录后才可以获取1用户详细信息
       if (this.loginInfo.userData.code === 200) {
-        // await this.$store.dispatch('user/getUserDetail', this.loginInfo.userData.profile.userId);
-        this.visible = true;
         this.userData = this.userDetail.profile;
       }
     },

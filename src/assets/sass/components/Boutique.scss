@@ -1,3 +1,5 @@
+@import '../untils/mixin.scss';
+
 .boutique{
   padding-bottom: 20px;
   .header{
@@ -24,8 +26,12 @@
         width: 100px;
       }
       .info{
-        position: relative;
-        left: 10px;
+        width: calc(100% - 110px);
+        p{
+          @include row-text-ellipsis;
+        }
+        margin-left: 10px;
+        flex: 1;
         .tag{
           display: inline-block;
           color: #c62f2f;

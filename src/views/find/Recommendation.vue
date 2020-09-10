@@ -65,7 +65,6 @@ export default {
   async mounted () {
     await this.setSongList();
     this.integrateSongList();
-    console.log(this.recSongList);
   },
   methods: {
     async setSongList () {
@@ -88,7 +87,6 @@ export default {
       // 关闭加载动画
       this.loading = false;
       this.newSong = result[0].result;
-      console.log(this.newSong);
       this.recMv = result[1].result;
       this.djprogram = result[2].result;
       this.privatecontent = result[3].result;
