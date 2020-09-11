@@ -166,6 +166,7 @@ export default {
         el.innerHTML = el.innerHTML.replace(reg, `<span style="color: ${bind.arg}">$1</span>`);
       }
     },
+    // 通过对象解析出文字
     parse: {
       inserted (el, bind) {
         const attr = bind.value.order;

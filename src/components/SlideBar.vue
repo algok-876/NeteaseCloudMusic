@@ -1,6 +1,6 @@
 <template>
-  <div class="slidebar">
-    <vue-scroll style="flex:1">
+  <div class="slidebar" @mousemove="sidebarmove" @mousedown.prevent="resize" ref="slidebar">
+    <vue-scroll style="flex:1" @mousedown.native="resize" @mousemove="sidebarmove">
       <div class="wrapper">
         <slidemenu title="推荐" :menulist="recMenu"></slidemenu>
         <template v-if="loginInfo.status">
@@ -78,6 +78,36 @@ export default {
     rightclick (offset) {
       this.textMenuVisible = true;
       this.menuOffset = offset;
+    },
+    sidebarmove (e) {
+      const slidebar = this.$refs.slidebar;
+      if (e.clientX > slidebar.offsetWidth - 10) {
+        slidebar.style.cursor = 'col-resize';
+        slidebar.setAttribute('isresize', 'true');
+      } else {
+        slidebar.style.cursor = '';
+        slidebar.setAttribute('isresize', 'false');
+      }
+    },
+    resize (e) {
+      if (!this.$refs.slidebar.getAttribute('isresize')) return;
+      const startX = e.clientX;
+      const slidebarWidth = this.$refs.slidebar.offsetWidth;
+      document.onmousemove = (event) => {
+        const endX = event.clientX;
+        console.log(endX - startX);
+        const width = slidebarWidth + (endX - startX);
+        if (width > slidebarWidth) {
+          this.$refs.slidebar.style.width = width + 'px';
+        }
+      };
+      document.onmouseup = () => {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+    },
+    test () {
+      console.log('22');
     }
   },
   computed: {
@@ -125,5 +155,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .__view{
+  width: 100%!important;
+}
 @import '../assets/sass/layout/SliderBar.scss';
 </style>
